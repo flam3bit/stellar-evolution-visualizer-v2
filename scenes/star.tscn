@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cf4erhqdgsmcj"]
+
+[ext_resource type="Script" uid="uid://bvofpbq2cqupt" path="res://scripts/star.gd" id="1_mcqwg"]
+[ext_resource type="Texture2D" uid="uid://c85vvbsrk6tqt" path="res://art/star_glow.png" id="2_j6vao"]
+
+[node name="Star" type="Node2D"]
+script = ExtResource("1_mcqwg")
+
+[node name="Glow" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_j6vao")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

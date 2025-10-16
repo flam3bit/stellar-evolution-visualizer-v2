@@ -1,0 +1,169 @@
+[gd_scene load_steps=7 format=3 uid="uid://btjvpe6yyyodr"]
+
+[ext_resource type="Script" uid="uid://c7h2k8pq7e5gx" path="res://scripts/main.gd" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://cf4erhqdgsmcj" path="res://scenes/star.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://bcrwo35iaydcq" path="res://scenes/habitable_zone.tscn" id="2_tbgi4"]
+[ext_resource type="Script" uid="uid://caqyi5rmy4lrr" path="res://scripts/zoom_cam.gd" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://bodficyuoy4mq" path="res://scripts/bbcode/temptext.gd" id="4_jyhfs"]
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_jyhfs"]
+script = ExtResource("4_jyhfs")
+metadata/_custom_type_script = "uid://bodficyuoy4mq"
+
+[node name="Main" type="Node"]
+script = ExtResource("1_o5qli")
+
+[node name="HabitableZone" parent="." instance=ExtResource("2_tbgi4")]
+position = Vector2(640, 360)
+hz_visible = false
+
+[node name="Star" parent="." instance=ExtResource("2_0wfyh")]
+position = Vector2(640, 360)
+rotating = true
+
+[node name="ZoomCam" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+script = ExtResource("3_sugp2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="StarInfo" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.65
+anchor_top = 0.011111111
+anchor_right = 0.99375
+anchor_bottom = 0.98888886
+metadata/_edit_use_anchors_ = true
+
+[node name="StarProperties" type="RichTextLabel" parent="CanvasLayer/StarInfo"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "Star Properties"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="StarName" type="RichTextLabel" parent="CanvasLayer/StarInfo"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "[Unnamed Star]"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TeffLabel" type="RichTextLabel" parent="CanvasLayer/StarInfo"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[temp]Effective Temperature[/temp]"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_jyhfs")]
+
+[node name="TeffVal" type="RichTextLabel" parent="CanvasLayer/StarInfo"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[color=white]6100 K[/color]"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_jyhfs")]
+
+[node name="LumLabel" type="RichTextLabel" parent="CanvasLayer/StarInfo"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[color=navajowhite]Luminosity[/color]"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_jyhfs")]
+
+[node name="LumVal" type="RichTextLabel" parent="CanvasLayer/StarInfo"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[color=navajowhite]1.0000 L☉[/color]"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_jyhfs")]
+
+[node name="RadLabel" type="RichTextLabel" parent="CanvasLayer/StarInfo"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[color=lightgreen]Radius[/color]"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_jyhfs")]
+
+[node name="RadVal" type="RichTextLabel" parent="CanvasLayer/StarInfo"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[color=lightgreen]1.0000 R☉[/color]"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_jyhfs")]
+
+[node name="MassLabel" type="RichTextLabel" parent="CanvasLayer/StarInfo"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[color=lightskyblue]Mass[/color]"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_jyhfs")]
+
+[node name="MassVal" type="RichTextLabel" parent="CanvasLayer/StarInfo"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[color=lightskyblue]1.0000 M☉[/color]"
+fit_content = true
+horizontal_alignment = 2
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_jyhfs")]
+
+[node name="AgeContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_top = 0.90416664
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="AgeLabel" type="Label" parent="CanvasLayer/AgeContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "100 Ma"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="FusionTime" type="Label" parent="CanvasLayer/AgeContainer"]
+visible = false
+layout_mode = 2
+text = "Hydrogen fusion: 10 Ma"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true

@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpk1ich21g8ln"]
+
+[ext_resource type="Script" uid="uid://r6y3o701bs4i" path="res://scripts/loading_screen.gd" id="1_ep5rh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ep5rh"]
+bg_color = Color(0.09620472, 0.09620475, 0.09620469, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hprjd"]
+bg_color = Color(0.22399998, 0.8, 0.4447999, 1)
+
+[node name="LoadingScreen" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_ep5rh")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="this is actually fake LMAOO" type="Node" parent="."]
+
+[node name="Loading" type="RichTextLabel" parent="."]
+clip_contents = false
+anchors_preset = -1
+anchor_left = 0.4
+anchor_top = 0.44444445
+anchor_right = 0.6
+anchor_bottom = 0.53333336
+offset_bottom = -3.0517578e-05
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[wave][rainbow]Loading...[/rainbow][/wave]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 7
+visible_ratio = 0.7
+metadata/_edit_use_anchors_ = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 448.0
+offset_top = 400.0
+offset_right = 832.0
+offset_bottom = 432.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ep5rh")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hprjd")
+
+[node name="DYK" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.00625
+anchor_top = 0.8888889
+anchor_right = 0.9875
+anchor_bottom = 0.98888886
+text = "Did you know? <text>"
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PercTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="LoadTimer" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="PercTimer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="LoadTimer" to="." method="_on_load_timer_timeout"]

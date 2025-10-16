@@ -1,0 +1,128 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvrdanun4rqgt"]
+
+[ext_resource type="Script" uid="uid://yarbj1pky06y" path="res://scripts/main_menu.gd" id="1_ekxnf"]
+[ext_resource type="PackedScene" uid="uid://cdgp7muxvatfm" path="res://scenes/main_menu_star.tscn" id="2_ekxnf"]
+[ext_resource type="PackedScene" uid="uid://dbu7ra7tvg5wt" path="res://scenes/sp_mist_buttons.tscn" id="3_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://xtf7w32ctwm2" path="res://icon.svg" id="4_wu84c"]
+
+[node name="MainMenu" type="CanvasLayer"]
+layer = 3
+script = ExtResource("1_ekxnf")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="OType" parent="." instance=ExtResource("2_ekxnf")]
+modulate = Color(0.6019072, 0.7324805, 1, 1)
+position = Vector2(1136, 0)
+scale = Vector2(1.8, 1.8)
+temperature = 37100.0
+radius = 1.8
+
+[node name="OTypeButtons" parent="OType" instance=ExtResource("3_bqqt6")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="BType" parent="." instance=ExtResource("2_ekxnf")]
+modulate = Color(0.69646394, 0.7956472, 1, 1)
+position = Vector2(855.99994, 0)
+scale = Vector2(1.62, 1.62)
+temperature = 16400.0
+radius = 1.62
+
+[node name="BTypeButtons" parent="BType" instance=ExtResource("3_bqqt6")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="AType" parent="." instance=ExtResource("2_ekxnf")]
+modulate = Color(0.8540041, 0.8931546, 1, 1)
+position = Vector2(616, 0)
+scale = Vector2(1.35, 1.35)
+temperature = 8250.0
+radius = 1.35
+
+[node name="ATypeButtons" parent="AType" instance=ExtResource("3_bqqt6")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="FType" parent="." instance=ExtResource("2_ekxnf")]
+modulate = Color(1, 0.9787135, 1, 1)
+position = Vector2(424, 0)
+scale = Vector2(1.17, 1.17)
+temperature = 6670.0
+radius = 1.17
+
+[node name="FTypeButtons" parent="FType" instance=ExtResource("3_bqqt6")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="GType" parent="." instance=ExtResource("2_ekxnf")]
+modulate = Color(1, 0.94390726, 0.89285576, 1)
+position = Vector2(264, 0)
+scale = Vector2(0.9, 0.9)
+temperature = 5680.0
+radius = 0.9
+
+[node name="GTypeButtons" parent="GType" instance=ExtResource("3_bqqt6")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="KType" parent="." instance=ExtResource("2_ekxnf")]
+modulate = Color(1, 0.86164105, 0.7503377, 1)
+position = Vector2(144, 6.162976e-33)
+scale = Vector2(0.72, 0.72)
+temperature = 4600.0
+radius = 0.72
+
+[node name="KTypeButtons" parent="KType" instance=ExtResource("3_bqqt6")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="MType" parent="." instance=ExtResource("2_ekxnf")]
+modulate = Color(1, 0.7212954, 0.4852847, 1)
+position = Vector2(48, 0)
+scale = Vector2(0.45, 0.45)
+temperature = 3210.0
+radius = 0.45
+
+[node name="MTypeButtons" parent="MType" instance=ExtResource("3_bqqt6")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="Logo" type="TextureRect" parent="."]
+anchors_preset = -1
+anchor_top = 0.08888889
+anchor_right = 1.0
+anchor_bottom = 0.35555556
+grow_horizontal = 2
+texture = ExtResource("4_wu84c")
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[connection signal="mist_chosen" from="OType/OTypeButtons" to="." method="_on_o_type_buttons_mist_chosen"]
+[connection signal="starpasta_chosen" from="OType/OTypeButtons" to="." method="_on_o_type_buttons_starpasta_chosen"]
+[connection signal="mist_chosen" from="BType/BTypeButtons" to="." method="_on_b_type_buttons_mist_chosen"]
+[connection signal="starpasta_chosen" from="BType/BTypeButtons" to="." method="_on_b_type_buttons_starpasta_chosen"]
+[connection signal="mist_chosen" from="AType/ATypeButtons" to="." method="_on_a_type_buttons_mist_chosen"]
+[connection signal="starpasta_chosen" from="AType/ATypeButtons" to="." method="_on_a_type_buttons_starpasta_chosen"]
+[connection signal="mist_chosen" from="FType/FTypeButtons" to="." method="_on_f_type_buttons_mist_chosen"]
+[connection signal="starpasta_chosen" from="FType/FTypeButtons" to="." method="_on_f_type_buttons_starpasta_chosen"]
+[connection signal="mist_chosen" from="GType/GTypeButtons" to="." method="_on_g_type_buttons_mist_chosen"]
+[connection signal="starpasta_chosen" from="GType/GTypeButtons" to="." method="_on_g_type_buttons_starpasta_chosen"]
+[connection signal="mist_chosen" from="KType/KTypeButtons" to="." method="_on_k_type_buttons_mist_chosen"]
+[connection signal="starpasta_chosen" from="KType/KTypeButtons" to="." method="_on_k_type_buttons_starpasta_chosen"]
+[connection signal="mist_chosen" from="MType/MTypeButtons" to="." method="_on_m_type_buttons_mist_chosen"]
+[connection signal="starpasta_chosen" from="MType/MTypeButtons" to="." method="_on_m_type_buttons_starpasta_chosen"]

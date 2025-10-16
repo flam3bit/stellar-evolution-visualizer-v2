@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbu7ra7tvg5wt"]
+
+[ext_resource type="Script" uid="uid://cainqve348xog" path="res://scripts/sp_mist_buttons.gd" id="1_xfmow"]
+
+[node name="SPMistButtons" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xfmow")
+metadata/_edit_use_anchors_ = true
+
+[node name="MistButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "A"
+
+[node name="StarpastaButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "B"
+
+[connection signal="pressed" from="MistButton" to="." method="_on_mist_button_pressed"]
+[connection signal="pressed" from="StarpastaButton" to="." method="_on_starpasta_button_pressed"]
