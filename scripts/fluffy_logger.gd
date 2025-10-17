@@ -39,7 +39,7 @@ static func print_warn(...args):
 	var text = " ".join(args)
 	_logprints(WARNING, text)
 	
-static func print_debug_2(...args):
+static func debug_print(...args):
 	var text = " ".join(args)
 	_logprints(DEBUG, text)
 	

@@ -7,38 +7,32 @@ var radius_sim_data:Array
 var lum_sim_data:Array
 var stage_sim_data:Array
 var hz_sim_data:Array
-
 var hz_in_data:Array
 var hz_out_data:Array
+var global_data:Array
 
 var star:Star
 var habitable_zone:HabitableZone
+var main_node:VisualStuff
 
 var cur_index:int = -90000
 var init_diff:float
 var frac:float
 var multiplier:float = 1
 var star_name:String
+var mist:bool = true
+var supernova:bool = true
 
-func reset():
-	set_process(false)
-	cur_index = -90000
-	multiplier = 1
-	init_diff = 0
-	frac = 1
-	#get_tree().reload_current_scene()
 
 func _ready() -> void:
-	
 	set_process(false)
-	pass
+
 func _process(delta: float) -> void:
 	advance_age(delta)
 	advance_temp(delta)
 	advance_radius(delta)
 	advance_mass(delta)
 	advance_luminosity(delta)
-	
 	advance_hz_in(delta)
 	advance_hz_out(delta)
 	
@@ -49,20 +43,45 @@ func _process(delta: float) -> void:
 func load_sim_data(path_to_file:String):
 	var pp = path_to_file.split("/")
 	pp.reverse()
-	star_name = pp[0]
+	star_name = pp[0].split(".")[0]
+	main_node.set_star_name(star_name)
 	if path_to_file.ends_with(".stp"):
 		var error = load_sim_data_starpasta(path_to_file)
 		habitable_zone.star = star
+		mist = false
+		
+		if Options.skip_ms:
+			FluffyLogger.print_info("Skipping main sequence ...")
+			remove_ms()
+		
+		star.age = age_sim_data[0]
+		star.temperature = teff_sim_data[0]
+		star.mass = mass_sim_data[0]
+		star.radius = radius_sim_data[0]
+		star.luminosity = lum_sim_data[0]
+		
 		return error
 	elif path_to_file.ends_with(".mist"):
 		var error = load_sim_data_mist(path_to_file)
 		habitable_zone.star = star
+		mist = true
+		
+		if Options.skip_ms:
+			FluffyLogger.print_info("Skipping main sequence ...")
+			remove_ms()
+			
+		star.age = age_sim_data[0]
+		star.temperature = teff_sim_data[0]
+		star.mass = mass_sim_data[0]
+		star.radius = radius_sim_data[0]
+		star.luminosity = lum_sim_data[0]
+
 		return error
 	else:
 		FluffyLogger.print_error("Can't find file.")
 		return Error.ERR_FILE_CANT_OPEN
 
-
+## Loads data from the Starpasta evolutionary "models" which are actually a set of formulae from a 2000 paper
 func load_sim_data_starpasta(path_to_csv:String):
 	var data_file = FileAccess.open(path_to_csv, FileAccess.READ)
 	if FileAccess.get_open_error() != OK:
@@ -87,8 +106,7 @@ func load_sim_data_starpasta(path_to_csv:String):
 	
 	while data_file.get_position() < data_file.get_length():
 		var csv_array = data_file.get_csv_line()
-		
-		stage_array.append(int(csv_array[1]))
+		stage_array.append(float(csv_array[1]))
 		age_array.append(float(csv_array[2]))
 		mass_array.append(float(csv_array[3]))
 		lum_array.append(float(csv_array[7]))
@@ -99,6 +117,14 @@ func load_sim_data_starpasta(path_to_csv:String):
 	mass_sim_data = mass_array
 	radius_sim_data = radius_array
 	lum_sim_data = lum_array
+	stage_sim_data = stage_array.duplicate()
+	
+	stage_array.clear()
+	
+	#ugly hack to intify the floats
+	for stage in stage_sim_data:
+		stage_array.append(int(stage))
+	
 	stage_sim_data = stage_array
 	
 	FluffyLogger.print_info("Calculating temperature and habitable zone...")
@@ -125,22 +151,23 @@ func load_sim_data_starpasta(path_to_csv:String):
 			cur = age_sim_data[age_val_idx]
 			prev = age_sim_data[age_val_idx- 1]
 			
-			#FluffyLogger.print_debug_2(cur - prev, age_val_idx, age_val_idx - 1)
+			#FluffyLogger.debug_print(cur - prev, age_val_idx, age_val_idx - 1)
 			if cur - prev <= 1e-5:
 				FluffyLogger.print_info(age_val_idx)
 				zero_indices.append(age_val_idx)
-	var all_data = [age_sim_data, stage_sim_data, mass_sim_data, radius_sim_data, lum_sim_data, teff_sim_data, hz_sim_data]
+				
 	
-	for data in all_data:
+	split_hz(hz_sim_data)
+	
+	global_data = [age_sim_data, stage_sim_data, mass_sim_data, radius_sim_data, lum_sim_data, teff_sim_data, hz_in_data, hz_out_data]
+	
+	for data in global_data:
 		for remove_indices in zero_indices:
 			data.remove_at(remove_indices)
 	
 	FluffyLogger.print_info("Applying data to star...")
 	
-	star.temperature = teff_sim_data[0]
-	star.mass = mass_sim_data[0]
-	star.radius = radius_sim_data[0]
-	star.luminosity = lum_sim_data[0]
+
 	
 	multiplier = 1
 	
@@ -148,7 +175,7 @@ func load_sim_data_starpasta(path_to_csv:String):
 
 	FluffyLogger.print_info("initial difference: {0}".format([init_diff]))
 	cur_index = 0
-	split_hz(hz_sim_data)
+
 	return Error.OK
 	
 func load_sim_data_mist(path_to_csv:String):
@@ -188,7 +215,7 @@ func load_sim_data_mist(path_to_csv:String):
 		radius_array.append(radius)
 		var lum:float = Functions.calc_lum_from_radius_and_teff(radius, teff)
 		lum_array.append(lum)
-		stage_array.append(int(csv_array[76]))
+		stage_array.append(float(csv_array[76]))
 		
 	FluffyLogger.print_info("Finished reading '{0}'".format([path_to_csv]))
 	age_sim_data = age_array
@@ -196,21 +223,22 @@ func load_sim_data_mist(path_to_csv:String):
 	teff_sim_data = teff_array
 	radius_sim_data = radius_array
 	lum_sim_data = lum_array
+	stage_sim_data = stage_array.duplicate()
+	
+	stage_array.clear()
+	
+	#ugly hack to intify the floats
+	for stage in stage_sim_data:
+		stage_array.append(int(stage))
+	
 	stage_sim_data = stage_array
 	
 	FluffyLogger.print_info("Calculating habitable zone...")
-	for i in range(0, age_sim_data.size()):
+	for i in age_sim_data.size():
 		var hz_b:Array = Functions.find_habitable_zone(teff_sim_data[i], lum_sim_data[i])
 		hz_array.append(hz_b)
 	hz_sim_data = hz_array
 	FluffyLogger.print_info("Set data to simulation")
-	
-	star.temperature = teff_sim_data[0]
-	star.mass = mass_sim_data[0]
-	star.radius = radius_sim_data[0]
-	star.luminosity = lum_sim_data[0]
-	
-	var msi = 0
 	
 	var diff_array:Array
 	for age_val_idx in age_sim_data.size():
@@ -237,7 +265,51 @@ func load_sim_data_mist(path_to_csv:String):
 	FluffyLogger.print_info("initial difference: {0}".format([init_diff]))
 	cur_index = 0
 	split_hz(hz_sim_data)
+
+	global_data = [age_sim_data, stage_sim_data, mass_sim_data, radius_sim_data, lum_sim_data, teff_sim_data, hz_in_data, hz_out_data]
+	
 	return Error.OK
+
+## Removes the main sequence from the data.
+func remove_ms():
+	var stop_ms_idx:int
+	
+	var age_skipms:Array
+	var mass_skipms:Array
+	var teff_skipms:Array
+	var radius_skipms:Array
+	var lum_skipms:Array
+	var stage_skipms:Array
+	var hz_in_skipms:Array
+	var hz_out_skipms:Array
+	
+	var tmp_glb_data = [age_skipms, stage_skipms, mass_skipms, radius_skipms, lum_skipms, teff_skipms, hz_in_skipms, hz_out_skipms]
+	
+	# [age_sim_data, stage_sim_data, mass_sim_data, radius_sim_data, lum_sim_data, teff_sim_data, hz_in_data, hz_out_data]
+	
+	if mist:
+		for stage_val_idx in stage_sim_data.size():
+			prints(stage_sim_data[stage_val_idx])
+	else: # sp
+		for stage_val_idx in stage_sim_data.size():
+			if stage_sim_data[stage_val_idx] > Constants.MSO07:
+				stop_ms_idx = stage_val_idx
+				break
+		for data_idx in global_data.size():
+			var idx:int = -1
+			for stat in global_data[data_idx]:
+				idx += 1
+				if idx >= stop_ms_idx:
+					tmp_glb_data[data_idx].append(stat)
+					
+		age_sim_data = age_skipms
+		stage_sim_data = stage_skipms
+		mass_sim_data = mass_skipms
+		radius_sim_data = radius_skipms
+		lum_sim_data = lum_skipms
+		teff_sim_data = teff_skipms
+		hz_in_data = hz_in_skipms
+		hz_out_data = hz_out_skipms
 
 func split_hz(hz_array:Array):
 	for hz:Array in hz_array:

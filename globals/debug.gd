@@ -7,8 +7,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		var key = event.keycode
 		match key:
 			KEY_R:
-				FluffyLogger.print_debug_2("Restarting!")
+				FluffyLogger.debug_print("Restarting!")
 				get_tree().reload_current_scene()
 			KEY_ESCAPE:
-				FluffyLogger.print_debug_2("Quitting!")
+				FluffyLogger.debug_print("Quitting!")
 				get_tree().quit()
