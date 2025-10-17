@@ -67,3 +67,26 @@ func _on_m_type_buttons_mist_chosen() -> void:
 
 func _on_m_type_buttons_starpasta_chosen() -> void:
 	add_data("res://examples/sp/Example_MType.stp")
+
+func _on_import_button_pressed() -> void:
+	create_open_file()
+	
+func opened_file(path:String):
+	add_data(path)
+
+func create_open_file():
+	var file_dialogue:FileDialog = FileDialog.new()
+	file_dialogue.file_selected.connect(opened_file)
+	file_dialogue.access = FileDialog.ACCESS_FILESYSTEM
+	file_dialogue.show_hidden_files = true
+	file_dialogue.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	file_dialogue.use_native_dialog = true
+	add_child(file_dialogue)
+	file_dialogue.popup_centered()
+
+func _on_skip_ms_toggled(toggled_on: bool) -> void:
+	Options.skip_ms = toggled_on
+	
+func _process(delta: float) -> void:
+	$VBoxContainer/SkipMS.button_pressed = Options.skip_ms
+	$MType/MTypeButtons/MistButton.disabled = Options.skip_ms

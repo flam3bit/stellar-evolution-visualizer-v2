@@ -12,22 +12,34 @@ const EARTH_KM:float = 6378.14
 const JUPITER_KM:float = 71492
 
 # Starpasta constants
-const MSU07:int = 0
-const MSO07:int = 1
-const HERTZSPRUNG_GAP:int = 2
-const FIRST_GIANT_BRANCH:int = 3
-const CORE_He_BURNING:int = 4
-const EARLY_AGB:int = 5
-const TP_AGB:int = 6
-const NAKED_He_STAR_MS:int = 7
-const NAKED_He_STAR_HG:int = 8
-const NAKED_He_STAR_GB:int = 9
-const He_WD:int = 10
-const CO_WD:int = 11
-const ONe_WD:int = 12
-const NEUTRON_STAR:int = 13
-const BLACK_HOLE:int = 14
-const MASSLESS_REMNANT:int = 15
+const SP_MS_0:int = 0
+const SP_MS_1:int = 1
+const SP_HERTZSPRUNG_GAP:int = 2
+const SP_FIRST_GIANT_BRANCH:int = 3
+const SP_CORE_He_BURNING:int = 4
+const SP_EARLY_AGB:int = 5
+const SP_TP_AGB:int = 6
+const SP_NAKED_He_STAR_MS:int = 7
+const SP_NAKED_He_STAR_HG:int = 8
+const SP_NAKED_He_STAR_GB:int = 9
+const SP_He_WD:int = 10
+const SP_CO_WD:int = 11
+const SP_ONe_WD:int = 12
+const SP_NEUTRON_STAR:int = 13
+const SP_BLACK_HOLE:int = 14
+const SP_MASSLESS_REMNANT:int = 15
+
+# MIST stages (EEP)
+# i'll count Wolf-Rayet stars as non-main sequence
+const MIST_PMS:int = -1
+const MIST_MS:int = 0
+const MIST_RGB:int = 2
+const MIST_CORE_He_BURNING:int = 3
+const MIST_EARLY_AGB: int = 4
+const MIST_TP_AGB:int = 5
+const MIST_POST_AGB:int = 6
+const MIST_WOLF_RAYET:int = 9
+
 
 # Radius text constants
 const UNIT_KM:int = 0
@@ -37,3 +49,11 @@ const UNIT_SOL:int = 3
 const UNIT_AU:int = 4
 
 const UNITS_ARRAY:Array = [UNIT_KM, UNIT_EARTH, UNIT_JUPITER, UNIT_SOL, UNIT_AU]
+
+const DYK:Array = [
+	"R136a1 is one of the most massive stars known. Its mass at least 300 M☉.",
+	"Mira (Omicron Ceti) is a star in the asymptotic giant branch. The Sun will reach this stage in 7-10 billion years.",
+	"O-types and hydrogen-burning Wolf-Rayet stars are unlikely to have planets.",
+	"An extremely metal-poor Sun-mass star has temperatures of an A-type star.",
+	"J1407b is a brown dwarf with a protoplanetary disk.",
+	"HD 100546 b is not 752 M♃, it is likely 3-25 M♃."]

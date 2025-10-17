@@ -23,7 +23,6 @@ var star_name:String
 var mist:bool = true
 var supernova:bool = true
 
-
 func _ready() -> void:
 	set_process(false)
 
@@ -133,8 +132,9 @@ func load_sim_data_starpasta(path_to_csv:String):
 		var teff = Functions.calc_temp_from_radius_and_lum(radius_sim_data[idx], lum_sim_data[idx])
 		teff_array.append(teff)
 		
-		var hz_bounds = Functions.find_habitable_zone(teff, lum_sim_data[idx])
-		hz_array.append(hz_bounds)
+		var hz_b = Functions.find_habitable_zone(teff, lum_sim_data[idx])
+		hz_in_data.append(hz_b[0])
+		hz_out_data.append(hz_b[1])
 	teff_sim_data = teff_array
 	hz_sim_data = hz_array
 	
@@ -156,8 +156,6 @@ func load_sim_data_starpasta(path_to_csv:String):
 				FluffyLogger.print_info(age_val_idx)
 				zero_indices.append(age_val_idx)
 				
-	
-	split_hz(hz_sim_data)
 	
 	global_data = [age_sim_data, stage_sim_data, mass_sim_data, radius_sim_data, lum_sim_data, teff_sim_data, hz_in_data, hz_out_data]
 	
@@ -203,7 +201,6 @@ func load_sim_data_mist(path_to_csv:String):
 	var radius_array:Array
 	var lum_array:Array
 	var stage_array:Array
-	var hz_array:Array
 	
 	while data_file.get_position() < data_file.get_length():
 		var csv_array = data_file.get_csv_line()
@@ -236,8 +233,8 @@ func load_sim_data_mist(path_to_csv:String):
 	FluffyLogger.print_info("Calculating habitable zone...")
 	for i in age_sim_data.size():
 		var hz_b:Array = Functions.find_habitable_zone(teff_sim_data[i], lum_sim_data[i])
-		hz_array.append(hz_b)
-	hz_sim_data = hz_array
+		hz_in_data.append(hz_b[0])
+		hz_out_data.append(hz_b[1])
 	FluffyLogger.print_info("Set data to simulation")
 	
 	var diff_array:Array
@@ -264,7 +261,6 @@ func load_sim_data_mist(path_to_csv:String):
 	
 	FluffyLogger.print_info("initial difference: {0}".format([init_diff]))
 	cur_index = 0
-	split_hz(hz_sim_data)
 
 	global_data = [age_sim_data, stage_sim_data, mass_sim_data, radius_sim_data, lum_sim_data, teff_sim_data, hz_in_data, hz_out_data]
 	
@@ -289,10 +285,28 @@ func remove_ms():
 	
 	if mist:
 		for stage_val_idx in stage_sim_data.size():
-			prints(stage_sim_data[stage_val_idx])
+			if stage_sim_data[stage_val_idx] > Constants.MIST_MS:
+				stop_ms_idx = stage_val_idx
+				break
+		for data_idx in global_data.size():
+			var idx:int = -1
+			for stat in global_data[data_idx]:
+				idx += 1
+				if idx >= stop_ms_idx:
+					tmp_glb_data[data_idx].append(stat)
+					
+		age_sim_data = age_skipms
+		stage_sim_data = stage_skipms
+		mass_sim_data = mass_skipms
+		radius_sim_data = radius_skipms
+		lum_sim_data = lum_skipms
+		teff_sim_data = teff_skipms
+		hz_in_data = hz_in_skipms
+		hz_out_data = hz_out_skipms
+			
 	else: # sp
 		for stage_val_idx in stage_sim_data.size():
-			if stage_sim_data[stage_val_idx] > Constants.MSO07:
+			if stage_sim_data[stage_val_idx] > Constants.SP_MS_1:
 				stop_ms_idx = stage_val_idx
 				break
 		for data_idx in global_data.size():
@@ -311,12 +325,6 @@ func remove_ms():
 		hz_in_data = hz_in_skipms
 		hz_out_data = hz_out_skipms
 
-func split_hz(hz_array:Array):
-	for hz:Array in hz_array:
-		hz_in_data.append(hz[0])
-		hz_out_data.append(hz[1])
-	hz_array.clear()
-
 func advance_age(delta:float):
 	var prev_age = age_sim_data[cur_index]
 	var next_age = prev_age
@@ -329,13 +337,16 @@ func advance_age(delta:float):
 	
 	var ydiff:float = (next_age - prev_age) * multiplier
 	
-	
 	frac = init_diff / ydiff
 	
 	if ydiff == 0:
 		frac = 1
 	
+	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
+	#	ydiff = tpagb_age_diff
+	
 	star.age += (ydiff * delta) * frac
+	
 	
 	if star.age >= next_age:
 		star.age = next_age
@@ -356,7 +367,10 @@ func advance_temp(delta):
 		next_temp = teff_sim_data[cur_index + 1]
 		
 	var diff:float = (next_temp - prev_temp) * multiplier
-	
+
+	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
+	#	diff = tpagb_teff_diff
+
 	star.temperature += (diff * delta) * frac
 	
 	if diff < 0:
@@ -365,6 +379,7 @@ func advance_temp(delta):
 	else:
 		if star.temperature >= next_temp:
 			star.temperature = next_temp
+			
 
 func advance_radius(delta):
 	var prev_radius = radius_sim_data[cur_index]
@@ -377,6 +392,10 @@ func advance_radius(delta):
 		next_radius = radius_sim_data[cur_index + 1]
 		
 	var diff:float = (next_radius - prev_radius) * multiplier
+
+	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
+	#	diff = tpagb_radius_diff
+
 	star.radius += (diff * delta) * frac
 	
 	if diff < 0:
@@ -385,7 +404,7 @@ func advance_radius(delta):
 	else:
 		if star.radius >= next_radius:
 			star.radius = next_radius
-			
+
 func advance_mass(delta):
 	var prev_mass = mass_sim_data[cur_index]
 	var next_mass = prev_mass
@@ -397,6 +416,10 @@ func advance_mass(delta):
 		next_mass = mass_sim_data[cur_index + 1]
 		
 	var diff:float = (next_mass - prev_mass) * multiplier
+	
+	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
+	#	diff = tpagb_mass_diff
+	
 	star.mass += (diff * delta) * frac
 	
 	
@@ -418,6 +441,10 @@ func advance_luminosity(delta):
 		next_lum = lum_sim_data[cur_index + 1]
 		
 	var diff:float = (next_lum - prev_lum) * multiplier
+	
+	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
+	#	diff = tpagb_lum_diff
+	
 	star.luminosity += (diff * delta) * frac
 		
 	if diff < 0:
@@ -439,6 +466,9 @@ func advance_hz_in(delta):
 		
 	var diff:float = (next_in - prev_in) * multiplier
 	
+	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
+	#	diff = tpagb_hz_in_diff
+
 	habitable_zone.in_bound += (diff * delta) * frac
 	
 	if diff < 0:
@@ -447,6 +477,7 @@ func advance_hz_in(delta):
 	else:
 		if habitable_zone.in_bound >= next_in:
 			habitable_zone.in_bound = next_in
+
 
 func advance_hz_out(delta):
 	var prev_out = hz_out_data[cur_index]
@@ -460,6 +491,9 @@ func advance_hz_out(delta):
 		
 	var diff:float = (next_out - prev_out) * multiplier
 	
+	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
+	#	diff = tpagb_hz_out_diff
+		
 	habitable_zone.out_bound += (diff * delta) * frac
 	
 	if diff < 0:
@@ -468,4 +502,29 @@ func advance_hz_out(delta):
 	else:
 		if habitable_zone.out_bound >= next_out:
 			habitable_zone.out_bound = next_out
-			
+
+func has_stage(stage_val:int):
+	var idx:int
+	for stage_idx in stage_sim_data.size():
+		if stage_sim_data[stage_idx] == stage_val:
+			idx = stage_idx
+			break
+	# if the very first index of the stage is at the very last index of the entire array
+	if idx == stage_sim_data.size() - 1:
+		return false
+	else:
+		if stage_sim_data[idx] == stage_val:
+			return true
+		else:
+			return false
+
+func calc_difference_wtf(stage_val:int, data_array:Array):
+	var idx:int
+	for stage in stage_sim_data.size():
+		if stage_sim_data[stage] == stage_val:
+			idx = stage
+			break
+
+	if idx == data_array.size() - 1:
+		return
+	return data_array[idx + 1] - data_array[idx]
