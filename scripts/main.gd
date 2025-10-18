@@ -1,4 +1,4 @@
-extends Node
+class_name VisualStuff extends Node
 
 @onready var star = $Star
 @onready var hz = $HabitableZone
@@ -112,3 +112,6 @@ func set_age_label(val:float):
 	var format:String = "%.2f" % val
 	
 	age_text.text = "{0} Ma".format([format])
+
+func set_star_name(text:String):
+	star_name.text = text

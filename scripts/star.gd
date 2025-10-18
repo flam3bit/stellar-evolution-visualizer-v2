@@ -26,6 +26,8 @@ func set_color(temp:float):
 	modulate = StarColor.convert_k_to_rgb(temp)
 	
 func _ready() -> void:
+	var bar = get_parent().get_parent().get_node("Simulation")
+	sim_control = bar
 	convert_scale(radius)
 	set_color(temperature)
 
@@ -72,4 +74,5 @@ func get_luminosity():
 func _on_timer_timeout() -> void:
 	return
 	@warning_ignore("unreachable_code")
-	FluffyLogger.print_info(sim_control.cur_index, sim_control.age_sim_data.size() - 1, sim_control.frac)
+	if sim_control.cur_index != -90000:
+		FluffyLogger.debug_print(sim_control.stage_sim_data[sim_control.cur_index])

@@ -61,7 +61,7 @@ vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="PercTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 3.0
 one_shot = true
 autostart = true
 
@@ -69,5 +69,10 @@ autostart = true
 wait_time = 0.25
 autostart = true
 
+[node name="PostLoad" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="timeout" from="PercTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="LoadTimer" to="." method="_on_load_timer_timeout"]
+[connection signal="timeout" from="PostLoad" to="." method="_on_post_load_timeout"]

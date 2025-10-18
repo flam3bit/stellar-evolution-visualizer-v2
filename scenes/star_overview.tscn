@@ -1,0 +1,188 @@
+[gd_scene load_steps=8 format=3 uid="uid://bn6no2o6314fr"]
+
+[ext_resource type="PackedScene" uid="uid://cdgp7muxvatfm" path="res://scenes/main_menu_star.tscn" id="1_lay4a"]
+[ext_resource type="Script" uid="uid://c1c27m7fckf5f" path="res://scripts/star_overview.gd" id="1_oy143"]
+
+[sub_resource type="Animation" id="Animation_6vy65"]
+resource_name = "StarMassAnim"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StarMass:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_oy143"]
+resource_name = "StarNameAnim"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StarName:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f0eol"]
+_data = {
+&"StarMassAnim": SubResource("Animation_6vy65"),
+&"StarNameAnim": SubResource("Animation_oy143")
+}
+
+[sub_resource type="Animation" id="Animation_f0eol"]
+resource_name = "ZoomFade"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StarName:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StarMass:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Star:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("White:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(0.36282945, 0.36282945, 0.36282945, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_khpw5"]
+_data = {
+&"ZoomFade": SubResource("Animation_f0eol")
+}
+
+[node name="StarOverview" type="CanvasLayer"]
+layer = 11
+script = ExtResource("1_oy143")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Star" parent="." instance=ExtResource("1_lay4a")]
+modulate = Color(1, 0.9505801, 0.9041132, 1)
+position = Vector2(640, 256)
+
+[node name="StarName" type="RichTextLabel" parent="."]
+anchors_preset = -1
+anchor_top = 0.53333336
+anchor_right = 1.0
+anchor_bottom = 0.7111111
+offset_top = -3.0517578e-05
+offset_bottom = -3.0517578e-05
+pivot_offset = Vector2(640, 64)
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[wave amp=40]Star Name[/wave]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 0
+visible_ratio = 0.0
+metadata/_edit_use_anchors_ = true
+
+[node name="StarMass" type="RichTextLabel" parent="."]
+anchors_preset = -1
+anchor_left = 0.35
+anchor_top = 0.7111111
+anchor_right = 0.65
+anchor_bottom = 0.8
+pivot_offset = Vector2(192, 32)
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[wave amp=40]Mass: 1.0[/wave]"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 0
+visible_ratio = 0.0
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 664.0
+offset_right = 1272.0
+offset_bottom = 714.0
+metadata/_edit_group_ = true
+
+[node name="ModeLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Mode: MIST"
+
+[node name="SkippedMSLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Main Sequence: Skipped"
+
+[node name="TextAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_f0eol")
+}
+
+[node name="FinAnim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_khpw5")
+}
+
+[node name="White" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+metadata/_edit_use_anchors_ = true
+
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="animation_finished" from="TextAnimationPlayer" to="." method="_on_text_animation_player_animation_finished"]
+[connection signal="animation_finished" from="FinAnim" to="." method="_on_fin_anim_animation_finished"]
