@@ -12,8 +12,8 @@ func _ready() -> void:
 	star_overview = preload_brief_scene.instantiate()
 	star_overview.overview_finished.connect(_on_overview_finished)
 	for star:MainMenuStar in stars:
-		star.position.y = ProjectSettings.get_setting("display/window/size/viewport_height")
-		star.position.y -= (Constants.SUN_PX * star.radius)
+		star.position.y = ProjectSettings.get_setting("display/window/size/viewport_height") / 2
+		#star.position.y -= (Constants.SUN_PX * star.radius)
 	
 func add_data(path:String):
 	var error = Simulation.load_sim_data(path)
@@ -95,5 +95,5 @@ func _on_skip_ms_toggled(toggled_on: bool) -> void:
 	Options.skip_ms = toggled_on
 	
 func _process(delta: float) -> void:
-	$VBoxContainer/SkipMS.button_pressed = Options.skip_ms
+	$OptionsContainer/SkipMS.button_pressed = Options.skip_ms
 	$MType/MTypeButtons/MistButton.disabled = Options.skip_ms

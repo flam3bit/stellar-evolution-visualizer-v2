@@ -20,7 +20,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="OType" parent="." instance=ExtResource("2_ekxnf")]
 modulate = Color(0.6019072, 0.7324805, 1, 1)
-position = Vector2(1136, 592)
+position = Vector2(152.00002, 360)
 scale = Vector2(1.8, 1.8)
 temperature = 37100.0
 radius = 1.8
@@ -29,7 +29,7 @@ radius = 1.8
 
 [node name="BType" parent="." instance=ExtResource("2_ekxnf")]
 modulate = Color(0.69646394, 0.7956472, 1, 1)
-position = Vector2(855.99994, 600)
+position = Vector2(431.99997, 360)
 scale = Vector2(1.62, 1.62)
 temperature = 16400.0
 radius = 1.62
@@ -41,7 +41,7 @@ anchor_bottom = 0.0
 
 [node name="AType" parent="." instance=ExtResource("2_ekxnf")]
 modulate = Color(0.8540041, 0.8931546, 1, 1)
-position = Vector2(616, 624)
+position = Vector2(672, 360)
 scale = Vector2(1.35, 1.35)
 temperature = 8250.0
 radius = 1.35
@@ -53,19 +53,16 @@ anchor_bottom = 0.0
 
 [node name="FType" parent="." instance=ExtResource("2_ekxnf")]
 modulate = Color(1, 0.9787135, 1, 1)
-position = Vector2(423.99997, 632)
+position = Vector2(863.99994, 360)
 scale = Vector2(1.17, 1.17)
 temperature = 6670.0
 radius = 1.17
 
 [node name="FTypeButtons" parent="FType" instance=ExtResource("3_bqqt6")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
 
 [node name="GType" parent="." instance=ExtResource("2_ekxnf")]
 modulate = Color(1, 0.94390726, 0.89285576, 1)
-position = Vector2(264, 656.00006)
+position = Vector2(1024, 360)
 scale = Vector2(0.9, 0.9)
 temperature = 5680.0
 radius = 0.9
@@ -77,7 +74,7 @@ anchor_bottom = 0.0
 
 [node name="KType" parent="." instance=ExtResource("2_ekxnf")]
 modulate = Color(1, 0.86164105, 0.7503377, 1)
-position = Vector2(144, 664)
+position = Vector2(1144, 360)
 scale = Vector2(0.72, 0.72)
 temperature = 4600.0
 radius = 0.72
@@ -89,7 +86,7 @@ anchor_bottom = 0.0
 
 [node name="MType" parent="." instance=ExtResource("2_ekxnf")]
 modulate = Color(1, 0.7212954, 0.4852847, 1)
-position = Vector2(48, 688.00006)
+position = Vector2(1240, 360.00003)
 scale = Vector2(0.45, 0.45)
 temperature = 3210.0
 radius = 0.45
@@ -110,20 +107,29 @@ texture = ExtResource("4_wu84c")
 stretch_mode = 5
 metadata/_edit_use_anchors_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 64.0
-offset_top = 384.0
-offset_right = 320.0
-offset_bottom = 512.0
+[node name="OptionsContainer" type="VBoxContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.4
+anchor_top = 0.8
+anchor_right = 0.6
+anchor_bottom = 0.9777778
+pivot_offset = Vector2(128, 64)
 metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
 
-[node name="ImportButton" type="Button" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="OptionsContainer"]
+layout_mode = 2
+text = "Options"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ImportButton" type="Button" parent="OptionsContainer"]
 layout_mode = 2
 text = "Import your own star"
 flat = true
 metadata/_edit_use_anchors_ = true
 
-[node name="SkipMS" type="CheckButton" parent="VBoxContainer"]
+[node name="SkipMS" type="CheckButton" parent="OptionsContainer"]
 layout_mode = 2
 text = "Skip main sequence"
 alignment = 1
@@ -142,5 +148,5 @@ alignment = 1
 [connection signal="starpasta_chosen" from="KType/KTypeButtons" to="." method="_on_k_type_buttons_starpasta_chosen"]
 [connection signal="mist_chosen" from="MType/MTypeButtons" to="." method="_on_m_type_buttons_mist_chosen"]
 [connection signal="starpasta_chosen" from="MType/MTypeButtons" to="." method="_on_m_type_buttons_starpasta_chosen"]
-[connection signal="pressed" from="VBoxContainer/ImportButton" to="." method="_on_import_button_pressed"]
-[connection signal="toggled" from="VBoxContainer/SkipMS" to="." method="_on_skip_ms_toggled"]
+[connection signal="pressed" from="OptionsContainer/ImportButton" to="." method="_on_import_button_pressed"]
+[connection signal="toggled" from="OptionsContainer/SkipMS" to="." method="_on_skip_ms_toggled"]
