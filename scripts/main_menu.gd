@@ -31,7 +31,6 @@ func remove(star_name:String, star_mass:float, star_temp:float, mist:bool):
 	star_overview.star_mass = star_mass
 	star_overview.star_temp = star_temp
 	star_overview.mist = mist
-	print(get_parent())
 	get_parent().add_child(star_overview)
 	
 func _on_overview_finished():
@@ -39,46 +38,46 @@ func _on_overview_finished():
 	queue_free()
 
 func _on_o_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Example_OType.mist")
+	add_data("res://examples/mist/Orinesa.mist")
 
 func _on_o_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Example_OType.stp")
+	add_data("res://examples/sp/Orinesa.stp")
 
 func _on_b_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Example_BType.mist")
+	add_data("res://examples/mist/Berigea.mist")
 
 func _on_b_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Example_BType.stp")
+	add_data("res://examples/sp/Berigea.stp")
 
 func _on_a_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Example_AType.mist")
+	add_data("res://examples/mist/Argoth.mist")
 
 func _on_a_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Example_AType.stp")
+	add_data("res://examples/sp/Argoth.stp")
 
 func _on_f_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Example_FType.mist")
+	add_data("res://examples/mist/Feria.mist")
 
 func _on_f_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Example_FType.stp")
+	add_data("res://examples/sp/Feria.stp")
 
 func _on_g_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Example_GType.mist")
+	add_data("res://examples/mist/Genor.mist")
 
 func _on_g_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Example_GType.stp")
+	add_data("res://examples/sp/Genor.stp")
 
 func _on_k_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Example_KType.mist")
+	add_data("res://examples/mist/Kerdo.mist")
 
 func _on_k_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Example_KType.stp")
+	add_data("res://examples/sp/Kerdo.stp")
 
 func _on_m_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Example_MType.mist")
+	add_data("res://examples/mist/Mitria.mist")
 
 func _on_m_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Example_MType.stp")
+	add_data("res://examples/sp/Mitria.stp")
 
 func _on_import_button_pressed() -> void:
 	create_open_file()

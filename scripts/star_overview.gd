@@ -16,7 +16,6 @@ var mist:bool
 @onready var skippedms:Label = $VBoxContainer/SkippedMSLabel
 
 func _on_ready() -> void:
-	prints(star, star_label, mass_label)
 	star.temperature = star_temp
 	star_strlength = set_text(star_name)
 	mass_strlength = set_mass(star_mass)
