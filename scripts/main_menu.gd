@@ -4,12 +4,15 @@ class_name MainMenu extends CanvasLayer
 var simulation:Simulation
 
 var preload_loading_screen:PackedScene = preload("res://scenes/loading_screen.tscn")
+var preload_brief_scene:PackedScene = preload("res://scenes/star_overview.tscn")
 var loading_screen:LoadingScreen
+var star_overview:StarOverview
 
 func _ready() -> void:
-	
 	loading_screen = preload_loading_screen.instantiate()
 	loading_screen.load_finished.connect(remove)
+	star_overview = preload_brief_scene.instantiate()
+	star_overview.overview_finished.connect(_on_overview_finished)
 	for star:MainMenuStar in stars:
 		star.position.y = ProjectSettings.get_setting("display/window/size/viewport_height")
 		star.position.y -= (Constants.SUN_PX * star.radius)
@@ -20,9 +23,18 @@ func root_ready():
 func add_data(path:String):
 	var error = simulation.load_sim_data(path)
 	if error == OK:
-		add_child(loading_screen)
+		get_parent().add_child(loading_screen)
 
-func remove():
+func remove(star_name:String, star_mass:float, star_temp:float, mist:bool):
+
+	star_overview.star_name = star_name
+	star_overview.star_mass = star_mass
+	star_overview.star_temp = star_temp
+	star_overview.mist = mist
+	print(get_parent())
+	get_parent().add_child(star_overview)
+	
+func _on_overview_finished():
 	simulation.set_process(true)
 	queue_free()
 

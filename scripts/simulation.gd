@@ -43,6 +43,10 @@ func load_sim_data(path_to_file:String):
 	var pp = path_to_file.split("/")
 	pp.reverse()
 	star_name = pp[0].split(".")[0]
+	
+	if star_name == "SPData" or star_name == "MIST_EvolutionTrack":
+		star_name = "[Unnamed Star]"
+	
 	main_node.set_star_name(star_name)
 	if path_to_file.ends_with(".stp"):
 		var error = load_sim_data_starpasta(path_to_file)

@@ -13,6 +13,18 @@ metadata/_custom_type_script = "uid://bodficyuoy4mq"
 [node name="Main" type="Node"]
 script = ExtResource("1_o5qli")
 
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = -2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer2"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
 [node name="HabitableZone" parent="." instance=ExtResource("2_tbgi4")]
 position = Vector2(640, 360)
 hz_visible = false
