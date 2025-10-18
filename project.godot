@@ -22,6 +22,7 @@ StarColor="*res://globals/star_color.gd"
 Constants="*res://globals/constants.gd"
 Functions="*res://globals/functions.gd"
 Options="*res://globals/options.gd"
+Simulation="*res://scripts/simulation.gd"
 
 [display]
 

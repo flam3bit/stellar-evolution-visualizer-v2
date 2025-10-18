@@ -26,7 +26,7 @@ func set_color(temp:float):
 	modulate = StarColor.convert_k_to_rgb(temp)
 	
 func _ready() -> void:
-	var bar = get_parent().get_parent().get_node("Simulation")
+	var bar = get_node("/root/Simulation")
 	sim_control = bar
 	convert_scale(radius)
 	set_color(temperature)

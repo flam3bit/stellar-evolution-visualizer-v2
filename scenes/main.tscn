@@ -172,10 +172,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="FusionTime" type="Label" parent="CanvasLayer/AgeContainer"]
-visible = false
-layout_mode = 2
-text = "Hydrogen fusion: 10 Ma"
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
+[node name="Pause" type="Button" parent="CanvasLayer"]
+offset_left = 8.0
+offset_top = 656.0
+offset_right = 88.0
+offset_bottom = 712.0

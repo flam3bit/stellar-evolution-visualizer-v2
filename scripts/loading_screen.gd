@@ -6,10 +6,8 @@ signal load_finished(star_name:String, star_mass:float, star_temp:float, mode:bo
 @onready var dyk = $DYK
 @onready var bar = $ProgressBar
 @onready var post_load = $PostLoad
-var sim:Simulation
-
+@onready var sim = get_node("/root/Simulation") 
 func _ready() -> void:
-	sim = get_parent().get_node("Simulation")
 	dyk.text = "Did you know? {0}".format([Constants.DYK.pick_random()])
 
 func _process(_delta: float) -> void:

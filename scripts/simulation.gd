@@ -1,4 +1,4 @@
-class_name Simulation extends Node
+extends Node
 
 var age_sim_data:Array
 var mass_sim_data:Array
@@ -25,6 +25,15 @@ var supernova:bool = true
 
 func _ready() -> void:
 	set_process(false)
+
+func reset_simulation():
+	set_process(false)
+	cur_index = -90000
+	multiplier = 1
+	init_diff = 0
+	frac = 0
+	for array in global_data:
+		array.clear()
 
 func _process(delta: float) -> void:
 	advance_age(delta)

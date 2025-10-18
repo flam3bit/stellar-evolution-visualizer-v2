@@ -18,7 +18,7 @@ func _ready() -> void:
 		star.position.y -= (Constants.SUN_PX * star.radius)
 	
 func root_ready():
-	simulation = get_parent().get_node("Simulation")
+	simulation = get_node("/root/Simulation")
 
 func add_data(path:String):
 	var error = simulation.load_sim_data(path)
