@@ -1,8 +1,6 @@
 class_name MainMenu extends CanvasLayer
 
 @onready var stars = [$MType, $KType, $GType, $FType, $AType, $BType, $OType]
-var simulation:Simulation
-
 var preload_loading_screen:PackedScene = preload("res://scenes/loading_screen.tscn")
 var preload_brief_scene:PackedScene = preload("res://scenes/star_overview.tscn")
 var loading_screen:LoadingScreen
@@ -17,11 +15,8 @@ func _ready() -> void:
 		star.position.y = ProjectSettings.get_setting("display/window/size/viewport_height")
 		star.position.y -= (Constants.SUN_PX * star.radius)
 	
-func root_ready():
-	simulation = get_node("/root/Simulation")
-
 func add_data(path:String):
-	var error = simulation.load_sim_data(path)
+	var error = Simulation.load_sim_data(path)
 	if error == OK:
 		get_parent().add_child(loading_screen)
 
@@ -34,7 +29,8 @@ func remove(star_name:String, star_mass:float, star_temp:float, mist:bool):
 	get_parent().add_child(star_overview)
 	
 func _on_overview_finished():
-	simulation.set_process(true)
+	Simulation.set_process(true)
+	Simulation.started = true
 	queue_free()
 
 func _on_o_type_buttons_mist_chosen() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://btjvpe6yyyodr"]
+[gd_scene load_steps=9 format=3 uid="uid://btjvpe6yyyodr"]
 
 [ext_resource type="Script" uid="uid://c7h2k8pq7e5gx" path="res://scripts/main.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://cf4erhqdgsmcj" path="res://scenes/star.tscn" id="2_0wfyh"]
@@ -9,6 +9,14 @@
 [sub_resource type="RichTextEffect" id="RichTextEffect_jyhfs"]
 script = ExtResource("4_jyhfs")
 metadata/_custom_type_script = "uid://bodficyuoy4mq"
+
+[sub_resource type="InputEventKey" id="InputEventKey_tbgi4"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_tefeu"]
+events = [SubResource("InputEventKey_tbgi4")]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_o5qli")
@@ -177,3 +185,7 @@ offset_left = 8.0
 offset_top = 656.0
 offset_right = 88.0
 offset_bottom = 712.0
+toggle_mode = true
+shortcut = SubResource("Shortcut_tefeu")
+
+[connection signal="toggled" from="CanvasLayer/Pause" to="." method="_on_pause_toggled"]

@@ -115,3 +115,6 @@ func set_age_label(val:float):
 
 func set_star_name(text:String):
 	star_name.text = text
+
+func _on_pause_toggled(toggled_on: bool) -> void:
+	Simulation.pause_sim(toggled_on)
