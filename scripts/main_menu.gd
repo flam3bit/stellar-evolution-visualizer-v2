@@ -19,6 +19,11 @@ func add_data(path:String):
 	var error = Simulation.load_sim_data(path)
 	if error == OK:
 		get_parent().add_child(loading_screen)
+	
+	for star in stars:
+		for node in star.get_children():
+			for child:Button in node.get_children():
+				child.disabled = true
 
 func remove(star_name:String, star_mass:float, star_temp:float, mist:bool):
 
@@ -94,6 +99,7 @@ func create_open_file():
 func _on_skip_ms_toggled(toggled_on: bool) -> void:
 	Options.skip_ms = toggled_on
 	
+@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	$OptionsContainer/SkipMS.button_pressed = Options.skip_ms
 	$MType/MTypeButtons/MistButton.disabled = Options.skip_ms

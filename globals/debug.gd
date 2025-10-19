@@ -13,3 +13,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			KEY_ESCAPE:
 				FluffyLogger.debug_print("Quitting!")
 				get_tree().quit()
+			KEY_U:
+				var user_dir = ProjectSettings.globalize_path("user://")
+				OS.shell_open(user_dir)

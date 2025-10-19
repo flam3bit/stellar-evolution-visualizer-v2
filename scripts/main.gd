@@ -5,9 +5,7 @@ class_name VisualStuff extends Node
 @onready var star_name = $CanvasLayer/StarInfo/StarName
 var simulation:Simulation
 func _ready() -> void:
-	
 	FluffyLogger.print_info("Stella says hi! :3")
-	#Simulation.load_sim_data("/home/flamebit/Downloads/Tairu.mist")
 
 func root_ready():
 	simulation.habitable_zone = hz
@@ -117,4 +115,5 @@ func set_star_name(text:String):
 	star_name.text = text
 
 func _on_pause_toggled(toggled_on: bool) -> void:
-	Simulation.pause_sim(toggled_on)
+	if Simulation.started:
+		Simulation.pause_sim(toggled_on)

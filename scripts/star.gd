@@ -76,3 +76,28 @@ func _on_timer_timeout() -> void:
 	@warning_ignore("unreachable_code")
 	if sim_control.cur_index != -90000:
 		FluffyLogger.debug_print(sim_control.stage_sim_data[sim_control.cur_index])
+
+func print_data():
+	var nstring:String = "Name: {0}\n".format([Simulation.star_name])
+	var mstring:String = "Mass: {0}\n".format([mass])
+	var tstring:String = "Teff: {0}\n".format([temperature])
+	var rstring:String = "Radi: {0}\n".format([radius])
+	var lstring:String = "Lumi: {0}\n".format([luminosity])
+	var astring:String = "Age: {0}\n".format([(age * 1_000_000) / 1_000_000_000])
+	var sclass:String = "Spec: {0}\n".format([SpectralClass.calculate_spectral_class(temperature)])
+	return "".join([nstring, mstring, tstring, rstring, lstring, astring, sclass])
+	
+func _to_string() -> String:
+	return print_data()
+	
+func _unhandled_key_input(event: InputEvent) -> void:
+	if Simulation.started:
+		if event.is_pressed():
+			match event.keycode:
+				KEY_P:
+					var user_folder = DirAccess.open("user://")
+					if !user_folder.dir_exists("stars"):
+						user_folder.make_dir("stars")
+						
+					var file = FileAccess.open("user://stars/{0}.dat".format([Simulation.star_name]), FileAccess.WRITE)
+					file.store_line(print_data())

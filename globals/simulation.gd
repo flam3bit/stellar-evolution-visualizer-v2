@@ -28,8 +28,7 @@ func _ready() -> void:
 	set_process(false)
 
 func pause_sim(paused:bool):
-	if started:
-		set_process(paused)
+	set_process(paused)
 
 func reset_simulation():
 	set_process(false)
@@ -48,7 +47,6 @@ func _process(delta: float) -> void:
 	advance_luminosity(delta)
 	advance_hz_in(delta)
 	advance_hz_out(delta)
-	
 	if cur_index == age_sim_data.size() - 1:
 		set_process(false)
 
