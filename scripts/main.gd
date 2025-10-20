@@ -20,8 +20,9 @@ func _process(_delta: float) -> void:
 	
 func set_temp_text(val:float):
 	var teff_text = $CanvasLayer/StarInfo/TeffVal
-	
+	set_spec_class(val)
 	teff_text.text = "[color={0}]{1} K[/color]".format([StarColor.convert_k_to_rgb(val).to_html(false), int(val)])
+
 
 func set_lum_text(val:float):
 	var lum_text = $CanvasLayer/StarInfo/LumVal
@@ -110,6 +111,13 @@ func set_age_label(val:float):
 	var format:String = "%.2f" % val
 	
 	age_text.text = "{0} Ma".format([format])
+
+func set_spec_class(val:float):
+	var sc_text = $CanvasLayer/StarInfo/SpectralClass
+	
+	var sc = SpectralClass.calculate_spectral_class(val)
+	
+	sc_text.text = "[color=silver]{0}[/color]".format([sc])
 
 func set_star_name(text:String):
 	star_name.text = text

@@ -1,7 +1,8 @@
 extends Node
 
 func _ready() -> void:
-	pass
+	var sc = calculate_spectral_class(5779)
+	print(sc)
 
 func calculate_spectral_class(temperature:float):
 	if temperature >= 2320 and temperature < 3820:

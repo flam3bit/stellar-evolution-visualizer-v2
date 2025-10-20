@@ -100,4 +100,5 @@ func _unhandled_key_input(event: InputEvent) -> void:
 						user_folder.make_dir("stars")
 						
 					var file = FileAccess.open("user://stars/{0}.dat".format([Simulation.star_name]), FileAccess.WRITE)
+					FluffyLogger.print_info("Printing to", "user://stars/{0}.dat".format([Simulation.star_name]))
 					file.store_line(print_data())

@@ -36,6 +36,7 @@ func reset_simulation():
 	multiplier = 1
 	init_diff = 0
 	frac = 0
+	started = false
 	for array in global_data:
 		array.clear()
 
