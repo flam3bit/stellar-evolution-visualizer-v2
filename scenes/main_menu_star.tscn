@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://c85vvbsrk6tqt" path="res://art/star_glow.png" id="2_30hga"]
 
 [node name="MainMenuStar" type="Node2D"]
+modulate = Color(1, 0.9505801, 0.9041132, 1)
 script = ExtResource("1_8ku66")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
 texture = ExtResource("2_30hga")

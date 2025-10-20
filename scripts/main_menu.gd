@@ -1,8 +1,6 @@
 class_name MainMenu extends CanvasLayer
 
 @onready var stars = [$MType, $KType, $GType, $FType, $AType, $BType, $OType]
-var simulation:Simulation
-
 var preload_loading_screen:PackedScene = preload("res://scenes/loading_screen.tscn")
 var preload_brief_scene:PackedScene = preload("res://scenes/star_overview.tscn")
 var loading_screen:LoadingScreen
@@ -14,16 +12,18 @@ func _ready() -> void:
 	star_overview = preload_brief_scene.instantiate()
 	star_overview.overview_finished.connect(_on_overview_finished)
 	for star:MainMenuStar in stars:
-		star.position.y = ProjectSettings.get_setting("display/window/size/viewport_height")
-		star.position.y -= (Constants.SUN_PX * star.radius)
+		star.position.y = ProjectSettings.get_setting("display/window/size/viewport_height") / 2
+		#star.position.y -= (Constants.SUN_PX * star.radius)
 	
-func root_ready():
-	simulation = get_parent().get_node("Simulation")
-
 func add_data(path:String):
-	var error = simulation.load_sim_data(path)
+	var error = Simulation.load_sim_data(path)
 	if error == OK:
 		get_parent().add_child(loading_screen)
+	
+	for star in stars:
+		for node in star.get_children():
+			for child:Button in node.get_children():
+				child.disabled = true
 
 func remove(star_name:String, star_mass:float, star_temp:float, mist:bool):
 
@@ -34,7 +34,8 @@ func remove(star_name:String, star_mass:float, star_temp:float, mist:bool):
 	get_parent().add_child(star_overview)
 	
 func _on_overview_finished():
-	simulation.set_process(true)
+	Simulation.set_process(true)
+	Simulation.started = true
 	queue_free()
 
 func _on_o_type_buttons_mist_chosen() -> void:
@@ -98,6 +99,7 @@ func create_open_file():
 func _on_skip_ms_toggled(toggled_on: bool) -> void:
 	Options.skip_ms = toggled_on
 	
+@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
-	$VBoxContainer/SkipMS.button_pressed = Options.skip_ms
+	$OptionsContainer/SkipMS.button_pressed = Options.skip_ms
 	$MType/MTypeButtons/MistButton.disabled = Options.skip_ms

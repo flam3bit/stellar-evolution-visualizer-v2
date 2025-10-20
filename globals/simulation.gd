@@ -22,9 +22,13 @@ var multiplier:float = 1
 var star_name:String
 var mist:bool = true
 var supernova:bool = true
+var started:bool = false
 
 func _ready() -> void:
 	set_process(false)
+
+func pause_sim(paused:bool):
+	set_process(paused)
 
 func reset_simulation():
 	set_process(false)
@@ -32,6 +36,7 @@ func reset_simulation():
 	multiplier = 1
 	init_diff = 0
 	frac = 0
+	started = false
 	for array in global_data:
 		array.clear()
 
@@ -43,7 +48,6 @@ func _process(delta: float) -> void:
 	advance_luminosity(delta)
 	advance_hz_in(delta)
 	advance_hz_out(delta)
-	
 	if cur_index == age_sim_data.size() - 1:
 		set_process(false)
 
@@ -271,6 +275,8 @@ func load_sim_data_mist(path_to_csv:String):
 	multiplier *= 2
 	
 	init_diff = (age_sim_data[first[2]] - age_sim_data[first[1]]) * multiplier
+	
+	init_diff -= 1 / mass_sim_data[0]
 	
 	FluffyLogger.print_info("initial difference: {0}".format([init_diff]))
 	cur_index = 0

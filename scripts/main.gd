@@ -5,9 +5,7 @@ class_name VisualStuff extends Node
 @onready var star_name = $CanvasLayer/StarInfo/StarName
 var simulation:Simulation
 func _ready() -> void:
-	
 	FluffyLogger.print_info("Stella says hi! :3")
-	#Simulation.load_sim_data("/home/flamebit/Downloads/Tairu.mist")
 
 func root_ready():
 	simulation.habitable_zone = hz
@@ -22,8 +20,9 @@ func _process(_delta: float) -> void:
 	
 func set_temp_text(val:float):
 	var teff_text = $CanvasLayer/StarInfo/TeffVal
-	
+	set_spec_class(val)
 	teff_text.text = "[color={0}]{1} K[/color]".format([StarColor.convert_k_to_rgb(val).to_html(false), int(val)])
+
 
 func set_lum_text(val:float):
 	var lum_text = $CanvasLayer/StarInfo/LumVal
@@ -113,5 +112,16 @@ func set_age_label(val:float):
 	
 	age_text.text = "{0} Ma".format([format])
 
+func set_spec_class(val:float):
+	var sc_text = $CanvasLayer/StarInfo/SpectralClass
+	
+	var sc = SpectralClass.calculate_spectral_class(val)
+	
+	sc_text.text = "[color=silver]{0}[/color]".format([sc])
+
 func set_star_name(text:String):
 	star_name.text = text
+
+func _on_pause_toggled(toggled_on: bool) -> void:
+	if Simulation.started:
+		Simulation.pause_sim(toggled_on)

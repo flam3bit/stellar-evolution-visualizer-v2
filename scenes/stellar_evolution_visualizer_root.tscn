@@ -1,15 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4qujb1richai"]
+[gd_scene load_steps=4 format=3 uid="uid://b4qujb1richai"]
 
 [ext_resource type="Script" uid="uid://cngmphtrflx6u" path="res://scripts/stellar_evolution_visualizer_root.gd" id="1_5n8x5"]
-[ext_resource type="Script" uid="uid://d0qr1uusakpy5" path="res://scripts/simulation.gd" id="1_nlrvl"]
 [ext_resource type="PackedScene" uid="uid://btjvpe6yyyodr" path="res://scenes/main.tscn" id="1_xyk4r"]
 [ext_resource type="PackedScene" uid="uid://bvrdanun4rqgt" path="res://scenes/main_menu.tscn" id="2_nlrvl"]
 
 [node name="StellarEvolutionVisualizerRoot" type="Node"]
 script = ExtResource("1_5n8x5")
-
-[node name="Simulation" type="Node" parent="."]
-script = ExtResource("1_nlrvl")
 
 [node name="Main" parent="." instance=ExtResource("1_xyk4r")]
 

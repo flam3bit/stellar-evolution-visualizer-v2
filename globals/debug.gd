@@ -8,7 +8,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		match key:
 			KEY_R:
 				FluffyLogger.debug_print("Restarting!")
+				Simulation.reset_simulation()
 				get_tree().reload_current_scene()
 			KEY_ESCAPE:
 				FluffyLogger.debug_print("Quitting!")
 				get_tree().quit()
+			KEY_U:
+				var user_dir = ProjectSettings.globalize_path("user://")
+				OS.shell_open(user_dir)

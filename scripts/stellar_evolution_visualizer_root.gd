@@ -1,13 +1,12 @@
 extends Node
 
-@onready var sim = $Simulation
 @onready var main = $Main
 @onready var main_menu = $Main
 
 func _ready() -> void:
-	main.simulation = sim
-	main_menu.simulation = sim
-	sim.main_node = main
+	main.simulation = get_node("/root/Simulation")
+	main_menu.simulation = get_node("/root/Simulation")
+	Simulation.main_node = main
 
 func print_entire_scene_tree_lmao(scene:Node,level=1):
 	FluffyLogger.debug_print("{0}/{1}".format([scene.get_parent().name, scene.name]))

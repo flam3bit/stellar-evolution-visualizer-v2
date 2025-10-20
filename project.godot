@@ -12,6 +12,8 @@ config_version=5
 
 config/name="StellarEvolution Visualizer v2"
 run/main_scene="uid://b4qujb1richai"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="StellarEvolutionVisualizerV2"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -22,6 +24,8 @@ StarColor="*res://globals/star_color.gd"
 Constants="*res://globals/constants.gd"
 Functions="*res://globals/functions.gd"
 Options="*res://globals/options.gd"
+Simulation="*res://globals/simulation.gd"
+SpectralClass="*res://globals/spectral_class.gd"
 
 [display]
 
