@@ -18,6 +18,12 @@ func _process(_delta: float) -> void:
 	set_mass_text(star.mass)
 	set_age_label(star.age)
 	
+	
+	if !simulation.started:
+		$CanvasLayer/Pause.disabled = true
+	else:
+		$CanvasLayer/Pause.disabled = false
+	
 func set_temp_text(val:float):
 	var teff_text = $CanvasLayer/StarInfo/TeffVal
 	set_spec_class(val)

@@ -23,7 +23,10 @@ var star_name:String
 var mist:bool = true
 var supernova:bool = true
 var started:bool = false
+var speed_mutliplier:float = 1
 
+var star_age_at_present:float
+var stop_at_age:bool = false
 func _ready() -> void:
 	set_process(false)
 
@@ -48,6 +51,23 @@ func _process(delta: float) -> void:
 	advance_luminosity(delta)
 	advance_hz_in(delta)
 	advance_hz_out(delta)
+	
+	if stop_at_age:
+		if star.age >= Functions.add_or_subtract_by_percentage(star_age_at_present, -0.01):
+			speed_mutliplier = 0.1
+			
+		if is_equal_approx(star.age, star_age_at_present):
+			set_process(false)
+			stop_at_age = false
+			return
+			
+		if star.age >= star_age_at_present:
+			set_process(false)
+			stop_at_age = false
+			
+	else:
+		speed_mutliplier = 1
+	
 	if cur_index == age_sim_data.size() - 1:
 		set_process(false)
 
@@ -59,6 +79,10 @@ func load_sim_data(path_to_file:String):
 	
 	if star_name == "SPData" or star_name == "MIST_EvolutionTrack":
 		star_name = "[Unnamed Star]"
+	
+	if star_name in Constants.HARDCODED_STAR_AGES and !Options.skip_ms:
+		stop_at_age = true
+		star_age_at_present = Constants.HARDCODED_STAR_AGES[star_name]
 	
 	main_node.set_star_name(star_name)
 	if path_to_file.ends_with(".stp"):
@@ -364,7 +388,7 @@ func advance_age(delta:float):
 	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
 	#	ydiff = tpagb_age_diff
 	
-	star.age += (ydiff * delta) * frac
+	star.age += (ydiff * delta) * frac * speed_mutliplier
 	
 	
 	if star.age >= next_age:
@@ -390,7 +414,7 @@ func advance_temp(delta):
 	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
 	#	diff = tpagb_teff_diff
 
-	star.temperature += (diff * delta) * frac
+	star.temperature += (diff * delta) * frac * speed_mutliplier
 	
 	if diff < 0:
 		if star.temperature <= next_temp:
@@ -415,7 +439,7 @@ func advance_radius(delta):
 	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
 	#	diff = tpagb_radius_diff
 
-	star.radius += (diff * delta) * frac
+	star.radius += (diff * delta) * frac * speed_mutliplier
 	
 	if diff < 0:
 		if star.radius <= next_radius:
@@ -439,7 +463,7 @@ func advance_mass(delta):
 	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
 	#	diff = tpagb_mass_diff
 	
-	star.mass += (diff * delta) * frac
+	star.mass += (diff * delta) * frac * speed_mutliplier
 	
 	
 	if diff < 0:
@@ -464,7 +488,7 @@ func advance_luminosity(delta):
 	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
 	#	diff = tpagb_lum_diff
 	
-	star.luminosity += (diff * delta) * frac
+	star.luminosity += (diff * delta) * frac * speed_mutliplier
 		
 	if diff < 0:
 		if star.luminosity <= next_lum:
@@ -488,7 +512,7 @@ func advance_hz_in(delta):
 	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
 	#	diff = tpagb_hz_in_diff
 
-	habitable_zone.in_bound += (diff * delta) * frac
+	habitable_zone.in_bound += (diff * delta) * frac * speed_mutliplier
 	
 	if diff < 0:
 		if habitable_zone.in_bound <= next_in:
@@ -513,7 +537,7 @@ func advance_hz_out(delta):
 	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
 	#	diff = tpagb_hz_out_diff
 		
-	habitable_zone.out_bound += (diff * delta) * frac
+	habitable_zone.out_bound += (diff * delta) * frac * speed_mutliplier
 	
 	if diff < 0:
 		if habitable_zone.out_bound <= next_out:
