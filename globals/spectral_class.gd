@@ -37,14 +37,13 @@ func calculate_spectral_number(temperature:float, lower:float, upper:float):
 
 func calculate_subnumber(temperature:float, lower:float, upper:float):
 	var diff:float = (upper - lower) / 10
-	var spec_number_array:Array
+	var spec_number_array:Array = [upper]
 	for i in 10:
 		upper -= diff
 		spec_number_array.append(upper)
+		
 	spec_number_array.reverse()
-	var difflists:Array
+	
 	for idx in spec_number_array.size():
-		var differ:float = temperature - spec_number_array[idx]
-		difflists.append([abs(differ), idx, differ])
-	difflists.sort()
-	return str(difflists[0][1])
+		if temperature >= spec_number_array[idx] and temperature < spec_number_array[idx - 1]:
+			return str(idx - 1)

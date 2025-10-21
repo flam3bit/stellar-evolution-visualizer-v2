@@ -70,3 +70,8 @@ func _on_text_animation_player_animation_finished(anim_name: StringName) -> void
 func _on_fin_anim_animation_finished(_anim_name: StringName) -> void:
 	overview_finished.emit()
 	queue_free()
+
+
+func _on_skip_pressed() -> void:
+	overview_finished.emit()
+	queue_free()
