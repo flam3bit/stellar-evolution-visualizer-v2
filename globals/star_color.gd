@@ -50,3 +50,12 @@ func convert_k_to_rgb(temperature:float):
 			b = clamp(b, 0, 255)
 	
 	return Color(r / 255, g / 255, b / 255)
+
+func k_to_html(temperature:float):
+	return convert_k_to_rgb(temperature).to_html(false)
+	
+func _ready() -> void:
+	return
+	@warning_ignore("unreachable_code")
+	var color = k_to_html(3500)
+	print(color)

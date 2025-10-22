@@ -1,11 +1,8 @@
 extends Node
 
 @onready var main = $Main
-@onready var main_menu = $Main
 
 func _ready() -> void:
-	main.simulation = get_node("/root/Simulation")
-	main_menu.simulation = get_node("/root/Simulation")
 	Simulation.main_node = main
 
 func print_entire_scene_tree_lmao(scene:Node,level=1):

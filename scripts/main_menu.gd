@@ -19,11 +19,10 @@ func add_data(path:String):
 	var error = Simulation.load_sim_data(path)
 	if error == OK:
 		get_parent().add_child(loading_screen)
-	
-	for star in stars:
-		for node in star.get_children():
-			for child:Button in node.get_children():
-				child.disabled = true
+		for star in stars:
+			for node in star.get_children():
+				for child:Button in node.get_children():
+					child.disabled = true
 
 func remove(star_name:String, star_mass:float, star_temp:float, mist:bool):
 
@@ -41,44 +40,23 @@ func _on_overview_finished():
 func _on_o_type_buttons_mist_chosen() -> void:
 	add_data("res://examples/mist/Orinesa.mist")
 
-func _on_o_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Orinesa.stp")
-
 func _on_b_type_buttons_mist_chosen() -> void:
 	add_data("res://examples/mist/Berigea.mist")
-
-func _on_b_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Berigea.stp")
 
 func _on_a_type_buttons_mist_chosen() -> void:
 	add_data("res://examples/mist/Argoth.mist")
 
-func _on_a_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Argoth.stp")
-
 func _on_f_type_buttons_mist_chosen() -> void:
 	add_data("res://examples/mist/Feria.mist")
-
-func _on_f_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Feria.stp")
 
 func _on_g_type_buttons_mist_chosen() -> void:
 	add_data("res://examples/mist/Genor.mist")
 
-func _on_g_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Genor.stp")
-
 func _on_k_type_buttons_mist_chosen() -> void:
 	add_data("res://examples/mist/Kerdo.mist")
 
-func _on_k_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Kerdo.stp")
-
 func _on_m_type_buttons_mist_chosen() -> void:
 	add_data("res://examples/mist/Mitria.mist")
-
-func _on_m_type_buttons_starpasta_chosen() -> void:
-	add_data("res://examples/sp/Mitria.stp")
 
 func _on_import_button_pressed() -> void:
 	create_open_file()

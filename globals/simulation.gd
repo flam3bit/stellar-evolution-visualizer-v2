@@ -27,6 +27,7 @@ var speed_mutliplier:float = 1
 
 var star_age_at_present:float
 var stop_at_age:bool = false
+
 func _ready() -> void:
 	set_process(false)
 
@@ -40,6 +41,8 @@ func reset_simulation():
 	init_diff = 0
 	frac = 0
 	started = false
+	star_age_at_present = 0
+	stop_at_age = false
 	for array in global_data:
 		array.clear()
 
@@ -64,6 +67,7 @@ func _process(delta: float) -> void:
 		if star.age >= star_age_at_present:
 			set_process(false)
 			stop_at_age = false
+			return
 			
 	else:
 		speed_mutliplier = 1
@@ -80,28 +84,16 @@ func load_sim_data(path_to_file:String):
 	if star_name == "SPData" or star_name == "MIST_EvolutionTrack":
 		star_name = "[Unnamed Star]"
 	
-	if star_name in Constants.HARDCODED_STAR_AGES and !Options.skip_ms:
+	if star_name in Constants.HARDCODED_STAR_AGES:
 		stop_at_age = true
 		star_age_at_present = Constants.HARDCODED_STAR_AGES[star_name]
+		Options.show_present = true
+		
+	if Options.skip_ms:
+		stop_at_age = false
 	
 	main_node.set_star_name(star_name)
-	if path_to_file.ends_with(".stp"):
-		var error = load_sim_data_starpasta(path_to_file)
-		habitable_zone.star = star
-		mist = false
-		
-		if Options.skip_ms:
-			FluffyLogger.print_info("Skipping main sequence ...")
-			remove_ms()
-		
-		star.age = age_sim_data[0]
-		star.temperature = teff_sim_data[0]
-		star.mass = mass_sim_data[0]
-		star.radius = radius_sim_data[0]
-		star.luminosity = lum_sim_data[0]
-		
-		return error
-	elif path_to_file.ends_with(".mist"):
+	if path_to_file.ends_with(".mist"):
 		var error = load_sim_data_mist(path_to_file)
 		habitable_zone.star = star
 		mist = true
@@ -117,106 +109,13 @@ func load_sim_data(path_to_file:String):
 		star.luminosity = lum_sim_data[0]
 
 		return error
+	elif path_to_file.ends_with(".csv"):
+		FluffyLogger.print_error("Not supported!")
+		return Error.ERR_FILE_CANT_READ
 	else:
 		FluffyLogger.print_error("Can't find file.")
 		return Error.ERR_FILE_CANT_OPEN
 
-## Loads data from the Starpasta evolutionary "models" which are actually a set of formulae from a 2000 paper
-func load_sim_data_starpasta(path_to_csv:String):
-	var data_file = FileAccess.open(path_to_csv, FileAccess.READ)
-	if FileAccess.get_open_error() != OK:
-		FluffyLogger.print_error("Can't find or read '{0}'".format([path_to_csv]))
-		return Error.ERR_FILE_CANT_READ
-	else:
-		FluffyLogger.print_info("Opened '{0}' successfully".format([path_to_csv]))
-	FluffyLogger.print_info("Now reading '{0}'...".format([path_to_csv]))
-	
-	# Age: col. 3, idx. 2
-	# Mass: col. 4, idx. 3
-	# Teff: calculated using stefan-boltzmann law
-	# radius: col. 8, idx. 7
-	# luminosity: col. 7, idx. 6
-	var age_array:Array
-	var mass_array:Array
-	var teff_array:Array
-	var radius_array:Array
-	var lum_array:Array
-	var stage_array:Array
-	var hz_array:Array
-	
-	while data_file.get_position() < data_file.get_length():
-		var csv_array = data_file.get_csv_line()
-		stage_array.append(float(csv_array[1]))
-		age_array.append(float(csv_array[2]))
-		mass_array.append(float(csv_array[3]))
-		lum_array.append(float(csv_array[7]))
-		radius_array.append(float(csv_array[8]))
-	FluffyLogger.print_info("Finished reading '{0}'".format([path_to_csv]))
-	
-	age_sim_data = age_array
-	mass_sim_data = mass_array
-	radius_sim_data = radius_array
-	lum_sim_data = lum_array
-	stage_sim_data = stage_array.duplicate()
-	
-	stage_array.clear()
-	
-	#ugly hack to intify the floats
-	for stage in stage_sim_data:
-		stage_array.append(int(stage))
-	
-	stage_sim_data = stage_array
-	
-	FluffyLogger.print_info("Calculating temperature and habitable zone...")
-
-	for idx in age_sim_data.size():
-		var teff = Functions.calc_temp_from_radius_and_lum(radius_sim_data[idx], lum_sim_data[idx])
-		teff_array.append(teff)
-		
-		var hz_b = Functions.find_habitable_zone(teff, lum_sim_data[idx])
-		hz_in_data.append(hz_b[0])
-		hz_out_data.append(hz_b[1])
-	teff_sim_data = teff_array
-	hz_sim_data = hz_array
-	
-	FluffyLogger.print_info("Removing differences less than 1e-5")
-	
-	var zero_indices:Array
-	for age_val_idx in age_sim_data.size():
-		@warning_ignore("shadowed_global_identifier", "unused_variable")
-		var len = age_sim_data.size()
-		var cur:float
-		var prev:float
-		
-		if age_val_idx > 0:
-			cur = age_sim_data[age_val_idx]
-			prev = age_sim_data[age_val_idx- 1]
-			
-			#FluffyLogger.debug_print(cur - prev, age_val_idx, age_val_idx - 1)
-			if cur - prev <= 1e-5:
-				FluffyLogger.print_info(age_val_idx)
-				zero_indices.append(age_val_idx)
-				
-	
-	global_data = [age_sim_data, stage_sim_data, mass_sim_data, radius_sim_data, lum_sim_data, teff_sim_data, hz_in_data, hz_out_data]
-	
-	for data in global_data:
-		for remove_indices in zero_indices:
-			data.remove_at(remove_indices)
-	
-	FluffyLogger.print_info("Applying data to star...")
-	
-
-	
-	multiplier = 1
-	
-	init_diff = (age_sim_data[1] - age_sim_data[0]) * multiplier
-
-	FluffyLogger.print_info("initial difference: {0}".format([init_diff]))
-	cur_index = 0
-
-	return Error.OK
-	
 func load_sim_data_mist(path_to_csv:String):
 	var data_file = FileAccess.open(path_to_csv, FileAccess.READ)
 	if FileAccess.get_open_error() != OK:

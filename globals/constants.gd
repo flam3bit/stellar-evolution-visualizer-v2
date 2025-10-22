@@ -61,8 +61,8 @@ const DYK:Array = [
 const HARDCODED_STAR_AGES:Dictionary = {
 	"Sun": 4568.2,
 	"Sol": 4568.2,
-	"Tairu": 4420.1,
-	"Antaira": 4420.1,
+	"Tairu": 4420.14519234235,
+	"Antaira": 4420.14519234235,
 	"Mitria": 6470.67013609426,
 	"Kerdo": 5121.76366400273,
 	"Genor": 4333.55092447457,

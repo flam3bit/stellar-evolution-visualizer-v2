@@ -14,9 +14,10 @@ metadata/_edit_use_anchors_ = true
 [node name="MistButton" type="Button" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "M"
+text = "Click"
 
 [node name="StarpastaButton" type="Button" parent="."]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "S"
