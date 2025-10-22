@@ -112,7 +112,6 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="Star" parent="." instance=ExtResource("1_lay4a")]
-modulate = Color(1, 0.9505801, 0.9041132, 1)
 position = Vector2(640, 256)
 
 [node name="StarName" type="RichTextLabel" parent="."]
@@ -174,15 +173,24 @@ libraries = {
 &"": SubResource("AnimationLibrary_khpw5")
 }
 
+[node name="Skip" type="Button" parent="."]
+offset_left = 1032.0
+offset_top = 648.0
+offset_right = 1272.0
+offset_bottom = 712.0
+text = "Skip"
+
 [node name="White" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(1, 1, 1, 0)
 metadata/_edit_use_anchors_ = true
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="animation_finished" from="TextAnimationPlayer" to="." method="_on_text_animation_player_animation_finished"]
 [connection signal="animation_finished" from="FinAnim" to="." method="_on_fin_anim_animation_finished"]
+[connection signal="pressed" from="Skip" to="." method="_on_skip_pressed"]

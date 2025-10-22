@@ -43,3 +43,6 @@ func calc_temp_from_radius_and_lum(r:float, l:float):
 	var teff:float = l / (4.0 * PI * (r ** 2) * σ)
 	teff **= (1./4)
 	return teff
+
+func add_or_subtract_by_percentage(value:float, percentage:float):
+	return value + (value * percentage)

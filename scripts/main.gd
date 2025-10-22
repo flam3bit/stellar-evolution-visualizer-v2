@@ -3,7 +3,7 @@ class_name VisualStuff extends Node
 @onready var star = $Star
 @onready var hz = $HabitableZone
 @onready var star_name = $CanvasLayer/StarInfo/StarName
-var simulation:Simulation
+@onready var simulation = Simulation
 func _ready() -> void:
 	FluffyLogger.print_info("Stella says hi! :3")
 
@@ -17,6 +17,12 @@ func _process(_delta: float) -> void:
 	set_rad_text(star.radius)
 	set_mass_text(star.mass)
 	set_age_label(star.age)
+	
+	
+	if !simulation.started:
+		$CanvasLayer/Pause.disabled = true
+	else:
+		$CanvasLayer/Pause.disabled = false
 	
 func set_temp_text(val:float):
 	var teff_text = $CanvasLayer/StarInfo/TeffVal
@@ -106,7 +112,16 @@ func set_mass_text(val:float):
 	mass_text.text = "[color=lightskyblue]{0} M☉[/color]".format([format])
 
 func set_age_label(val:float):
+	var present = $CanvasLayer/AgeContainer/Present
 	var age_text = $CanvasLayer/AgeContainer/AgeLabel
+	
+	if !Options.show_present:
+		present.visible = false
+	else:
+		present.visible = true
+		var aap:float = Simulation.star_age_at_present
+		var pres_format:String = "%.2f" % (val - aap)
+		present.text = "{0} Ma".format([pres_format])
 	
 	var format:String = "%.2f" % val
 	

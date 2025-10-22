@@ -57,3 +57,17 @@ const DYK:Array = [
 	"An extremely metal-poor Sun-mass star has temperatures of an A-type star.",
 	"J1407b is a brown dwarf with a protoplanetary disk.",
 	"HD 100546 b is not 752 M♃, it is likely 3-25 M♃."]
+	
+const HARDCODED_STAR_AGES:Dictionary = {
+	"Sun": 4568.2,
+	"Sol": 4568.2,
+	"Tairu": 4420.14519234235,
+	"Antaira": 4420.14519234235,
+	"Mitria": 6470.67013609426,
+	"Kerdo": 5121.76366400273,
+	"Genor": 4333.55092447457,
+	"Feria": 810.15894486118,
+	"Argoth": 528.06912130613,
+	"Berigea": 5.26706624964,
+	"Orinesa": 1.237988292
+}
