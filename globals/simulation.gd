@@ -43,6 +43,7 @@ func reset_simulation():
 	started = false
 	star_age_at_present = 0
 	stop_at_age = false
+	speed_mutliplier = 1
 	for array in global_data:
 		array.clear()
 

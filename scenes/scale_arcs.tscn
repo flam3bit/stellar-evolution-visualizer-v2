@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccxpuep1mxk4m"]
+
+[ext_resource type="Script" uid="uid://csflp6sdahuje" path="res://scripts/scale/scale_arcs.gd" id="1_s6chy"]
+
+[node name="ScaleArcs" type="Node2D"]
+modulate = Color(1, 1, 1, 0.5019608)
+script = ExtResource("1_s6chy")

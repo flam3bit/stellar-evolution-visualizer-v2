@@ -46,3 +46,7 @@ func calc_temp_from_radius_and_lum(r:float, l:float):
 
 func add_or_subtract_by_percentage(value:float, percentage:float):
 	return value + (value * percentage)
+
+func get_abs_magn(value:float):
+	value *= 3.828e26
+	return -2.5 * log10(value / 3.0128e28)
