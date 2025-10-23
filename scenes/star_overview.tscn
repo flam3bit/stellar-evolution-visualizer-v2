@@ -157,7 +157,6 @@ metadata/_edit_group_ = true
 
 [node name="ModeLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Mode: MIST"
 
 [node name="SkippedMSLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2

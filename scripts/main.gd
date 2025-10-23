@@ -46,6 +46,7 @@ func set_lum_text(val:float):
 	
 	var format:String = "%.{0}f".format([round_val]) % val
 	lum_text.text = "[color=navajowhite]{0} L☉[/color]".format([format])
+	set_absmag_text(val)
 
 
 const UNITS:Dictionary = {
@@ -133,6 +134,19 @@ func set_spec_class(val:float):
 	var sc = SpectralClass.calculate_spectral_class(val)
 	
 	sc_text.text = "[color=silver]{0}[/color]".format([sc])
+
+func set_absmag_text(val:float):
+	var absmag = Functions.get_abs_magn(val)
+	
+	var abs_mag_text = $CanvasLayer/StarInfo/AbMagnVal
+	
+	var abmagn_round = 4
+	if abs(absmag) > 10:
+		abmagn_round = 3
+	
+	var fam:String = "%.{0}f".format([abmagn_round]) % absmag
+	
+	abs_mag_text.text = "[color=plum]{0}[/color]".format([fam])
 
 func set_star_name(text:String):
 	star_name.text = text

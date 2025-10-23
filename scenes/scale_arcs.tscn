@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccxpuep1mxk4m"]
+
+[ext_resource type="Script" uid="uid://csflp6sdahuje" path="res://scripts/scale/scale_arcs.gd" id="1_s6chy"]
+[ext_resource type="Script" uid="uid://b65oehkxcempx" path="res://scripts/scale/scale.gd" id="2_0eg8h"]
+
+[node name="ScaleArcs" type="Node2D"]
+modulate = Color(1, 1, 1, 0.5019608)
+script = ExtResource("1_s6chy")
+
+[node name="01" type="Node2D" parent="."]
+script = ExtResource("2_0eg8h")
+radius = 0.1
+metadata/_custom_type_script = "uid://b65oehkxcempx"
+
+[node name="02" type="Node2D" parent="."]
+script = ExtResource("2_0eg8h")
+radius = 0.2
+metadata/_custom_type_script = "uid://b65oehkxcempx"
+
+[node name="05" type="Node2D" parent="."]
+script = ExtResource("2_0eg8h")
+radius = 0.5
+metadata/_custom_type_script = "uid://b65oehkxcempx"
+
+[node name="10" type="Node2D" parent="."]
+script = ExtResource("2_0eg8h")
+metadata/_custom_type_script = "uid://b65oehkxcempx"
+
+[node name="20" type="Node2D" parent="."]
+script = ExtResource("2_0eg8h")
+radius = 2.0
+metadata/_custom_type_script = "uid://b65oehkxcempx"
+
+[node name="50" type="Node2D" parent="."]
+script = ExtResource("2_0eg8h")
+radius = 5.0
+metadata/_custom_type_script = "uid://b65oehkxcempx"
+
+[node name="100" type="Node2D" parent="."]
+script = ExtResource("2_0eg8h")
+radius = 10.0
+metadata/_custom_type_script = "uid://b65oehkxcempx"

@@ -43,27 +43,8 @@ func get_radius_sol():
 func get_radius_km():
 	return radius * Constants.SUN_KM
 
-func get_radius_earth():
-	return get_radius_km() / Constants.EARTH_KM
-	
-func get_radius_jupiter():
-	return get_radius_km() / Constants.JUPITER_KM
-
 func get_radius_au():
 	return get_radius_km() / Constants.AU_KM
-
-var get_radius_units:Dictionary = {
-	Constants.UNIT_KM: get_radius_km(),
-	Constants.UNIT_EARTH: get_radius_earth(),
-	Constants.UNIT_JUPITER: get_radius_jupiter(),
-	Constants.UNIT_SOL: get_radius_sol(),
-	Constants.UNIT_AU: get_radius_au()
-}
-
-func get_radius(unit=Constants.UNIT_SOL):
-	for units in Constants.UNITS_ARRAY:
-		if units == unit:
-			return get_radius_units[unit]
 
 func get_temperature():
 	return temperature
