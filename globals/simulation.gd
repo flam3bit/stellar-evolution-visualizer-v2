@@ -207,6 +207,9 @@ func load_sim_data_mist(path_to_csv:String):
 
 	global_data = [age_sim_data, stage_sim_data, mass_sim_data, radius_sim_data, lum_sim_data, teff_sim_data, hz_in_data, hz_out_data]
 	
+	if mass_sim_data[0] < 0.5 and Options.skip_ms:
+		return Error.FAILED
+	
 	return Error.OK
 
 ## Removes the main sequence from the data.
