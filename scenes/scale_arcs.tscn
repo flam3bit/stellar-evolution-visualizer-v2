@@ -30,13 +30,3 @@ metadata/_custom_type_script = "uid://b65oehkxcempx"
 script = ExtResource("2_0eg8h")
 radius = 2.0
 metadata/_custom_type_script = "uid://b65oehkxcempx"
-
-[node name="50" type="Node2D" parent="."]
-script = ExtResource("2_0eg8h")
-radius = 5.0
-metadata/_custom_type_script = "uid://b65oehkxcempx"
-
-[node name="100" type="Node2D" parent="."]
-script = ExtResource("2_0eg8h")
-radius = 10.0
-metadata/_custom_type_script = "uid://b65oehkxcempx"

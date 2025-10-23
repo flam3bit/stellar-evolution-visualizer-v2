@@ -1,14 +1,14 @@
 class_name VisualStuff extends Node
 
 @onready var star = $Star
-@onready var hz = $HabitableZone
+# @onready var hz = $HabitableZone
 @onready var star_name = $CanvasLayer/StarInfo/StarName
 @onready var simulation = Simulation
 func _ready() -> void:
 	FluffyLogger.print_info("Stella says hi! :3")
 
 func root_ready():
-	simulation.habitable_zone = hz
+	#simulation.habitable_zone = hz
 	simulation.star = star
 
 func _process(_delta: float) -> void:
