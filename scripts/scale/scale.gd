@@ -1,4 +1,4 @@
-class_name Scale extends Node2D
+class_name ScaleArc2D extends Node2D
 
 @export var radius:float = 1
 

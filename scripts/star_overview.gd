@@ -24,9 +24,9 @@ func _on_ready() -> void:
 	skippedms.visible = Options.skip_ms
 	
 	if mist:
-		mode.text = "Mode: MIST"
+		mode.text = ""
 	else:
-		mode.text = "Mode: SP"
+		mode.text = ""
 	
 func set_text(text:String):
 	

@@ -12,7 +12,7 @@ var hz_out_data:Array
 var global_data:Array
 
 var star:Star
-var habitable_zone:HabitableZone
+# var habitable_zone:HabitableZone
 var main_node:VisualStuff
 
 var cur_index:int = -90000
@@ -27,6 +27,9 @@ var speed_mutliplier:float = 1
 
 var star_age_at_present:float
 var stop_at_age:bool = false
+
+var hzin:float
+var hzout:float
 
 func _ready() -> void:
 	set_process(false)
@@ -96,7 +99,7 @@ func load_sim_data(path_to_file:String):
 	main_node.set_star_name(star_name)
 	if path_to_file.ends_with(".mist"):
 		var error = load_sim_data_mist(path_to_file)
-		habitable_zone.star = star
+		# habitable_zone.star = star
 		mist = true
 		
 		if Options.skip_ms:
@@ -415,14 +418,14 @@ func advance_hz_in(delta):
 	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
 	#	diff = tpagb_hz_in_diff
 
-	habitable_zone.in_bound += (diff * delta) * frac * speed_mutliplier
+	hzin += (diff * delta) * frac * speed_mutliplier
 	
 	if diff < 0:
-		if habitable_zone.in_bound <= next_in:
-			habitable_zone.in_bound = next_in
+		if hzin <= next_in:
+			hzin = next_in
 	else:
-		if habitable_zone.in_bound >= next_in:
-			habitable_zone.in_bound = next_in
+		if hzin >= next_in:
+			hzin = next_in
 
 
 func advance_hz_out(delta):
@@ -440,14 +443,14 @@ func advance_hz_out(delta):
 	#if (mist and stage_sim_data[cur_index] == Constants.MIST_TP_AGB and star_has_tpagb):
 	#	diff = tpagb_hz_out_diff
 		
-	habitable_zone.out_bound += (diff * delta) * frac * speed_mutliplier
+	hzout += (diff * delta) * frac * speed_mutliplier
 	
 	if diff < 0:
-		if habitable_zone.out_bound <= next_out:
-			habitable_zone.out_bound = next_out
+		if hzout <= next_out:
+			hzout = next_out
 	else:
-		if habitable_zone.out_bound >= next_out:
-			habitable_zone.out_bound = next_out
+		if hzout >= next_out:
+			hzout = next_out
 
 func has_stage(stage_val:int):
 	var idx:int
