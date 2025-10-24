@@ -4,6 +4,7 @@ class_name VisualStuff extends Node
 # @onready var hz = $HabitableZone
 @onready var star_name = $CanvasLayer/StarInfo/StarName
 @onready var simulation = Simulation
+@onready var camera:ZoomCam = $ZoomCam
 func _ready() -> void:
 	FluffyLogger.print_info("Stella says hi! :3")
 
@@ -18,12 +19,20 @@ func _process(_delta: float) -> void:
 	set_mass_text(star.mass)
 	set_age_label(star.age)
 	
+	var log10_zoom:float = Functions.log10($ZoomCam.c_zoom)
+	
+	set_zoom_text(log10_zoom)
 	
 	if !simulation.started:
 		$CanvasLayer/Pause.disabled = true
 	else:
 		$CanvasLayer/Pause.disabled = false
-	
+
+func set_zoom_text(val:float):
+	var ftext:String = "%.2f" % val
+	var ztext:Label = $CanvasLayer/Zoom
+	ztext.text = "Zoom: {0}%".format([ftext])
+
 func set_temp_text(val:float):
 	var teff_text = $CanvasLayer/StarInfo/TeffVal
 	set_spec_class(val)
