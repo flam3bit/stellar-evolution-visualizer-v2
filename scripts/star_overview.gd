@@ -65,13 +65,39 @@ func _on_text_animation_player_animation_finished(anim_name: StringName) -> void
 	if anim_name == "StarNameAnim":
 		$TextAnimationPlayer.play("StarMassAnim")
 	if anim_name == "StarMassAnim":
-		$FinAnim.play("ZoomFade")
+		$Delay.start()
+
 
 func _on_fin_anim_animation_finished(_anim_name: StringName) -> void:
 	overview_finished.emit()
 	queue_free()
 
-
 func _on_skip_pressed() -> void:
 	overview_finished.emit()
 	queue_free()
+	
+
+var star_visible:int
+var mass_visible:int
+
+func _process(_delta: float) -> void:
+	name_sound($StarName)
+	mass_sound($StarMass)
+
+func name_sound(node:RichTextLabel):
+	if star_visible != node.visible_characters:
+		star_visible += 1
+		$TypeSound.play()
+	if node.visible_characters == -1:
+		star_visible = -1
+
+func mass_sound(node:RichTextLabel):
+	if mass_visible != node.visible_characters:
+		mass_visible += 1
+		$TypeSound.play()
+	if node.visible_characters == -1:
+		mass_visible = -1
+
+func _on_delay_timeout() -> void:
+	$FinAnim.play("ZoomFade")
+	$Trumpet.play()
