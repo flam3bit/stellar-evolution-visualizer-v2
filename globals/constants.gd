@@ -56,7 +56,8 @@ const DYK:Array = [
 	"O-types and hydrogen-burning Wolf-Rayet stars are unlikely to have planets.",
 	"An extremely metal-poor Sun-mass star has temperatures of an A-type star.",
 	"J1407b is a brown dwarf with a protoplanetary disk.",
-	"HD 100546 b is not 752 M♃, it is likely 3-25 M♃."]
+	"HD 100546 b is not 752 M♃, it is likely 3-25 M♃.",
+	"The creator of this has never heard of AstroCat in five years :)"]
 	
 const HARDCODED_STAR_AGES:Dictionary = {
 	"Sun": 4568.2,

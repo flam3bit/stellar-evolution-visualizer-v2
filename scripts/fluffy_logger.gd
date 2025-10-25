@@ -25,7 +25,12 @@ const LOGCOLORS = {
 static func _logprints(type:int, ...varargs):
 	var text = " ".join(varargs)
 	var string = "[color={3}][{0} - {2}][/color] {1}".format([Time.get_time_string_from_system(), text, LOGTYPES[type], LOGCOLORS[type]])
+	
 	print_rich(string)
+	if type == ERROR or type == FATAL:
+		push_error(text)
+	if type == WARNING:
+		push_warning(text)
 	
 static func print_fatal(...args):
 	var text = " ".join(args)

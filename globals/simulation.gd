@@ -97,7 +97,7 @@ func load_sim_data(path_to_file:String):
 		stop_at_age = false
 	
 	main_node.set_star_name(star_name)
-	if path_to_file.ends_with(".mist"):
+	if path_to_file.ends_with(".stellar"):
 		var error = load_sim_data_mist(path_to_file)
 		# habitable_zone.star = star
 		mist = true
@@ -113,9 +113,6 @@ func load_sim_data(path_to_file:String):
 		star.luminosity = lum_sim_data[0]
 
 		return error
-	elif path_to_file.ends_with(".csv"):
-		FluffyLogger.print_error("Not supported!")
-		return Error.ERR_FILE_CANT_READ
 	else:
 		FluffyLogger.print_error("Can't find file.")
 		return Error.ERR_FILE_CANT_OPEN

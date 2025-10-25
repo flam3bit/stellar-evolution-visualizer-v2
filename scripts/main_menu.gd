@@ -1,6 +1,7 @@
 class_name MainMenu extends CanvasLayer
 
 @onready var stars = [$MType, $KType, $GType, $FType, $AType, $BType, $OType]
+@onready var start = $StartButton 
 var preload_loading_screen:PackedScene = preload("res://scenes/loading_screen.tscn")
 var preload_brief_scene:PackedScene = preload("res://scenes/star_overview.tscn")
 var loading_screen:LoadingScreen
@@ -18,11 +19,7 @@ func _ready() -> void:
 func add_data(path:String):
 	var error = Simulation.load_sim_data(path)
 	if error == OK:
-		get_parent().add_child(loading_screen)
-		for star in stars:
-			for node in star.get_children():
-				for child:Button in node.get_children():
-					child.disabled = true
+		start.disabled = false
 
 func remove(star_name:String, star_mass:float, star_temp:float, mist:bool):
 
@@ -81,3 +78,10 @@ func _on_skip_ms_toggled(toggled_on: bool) -> void:
 func _process(delta: float) -> void:
 	$OptionsContainer/SkipMS.button_pressed = Options.skip_ms
 	$MType/MTypeButtons/MistButton.disabled = Options.skip_ms
+
+func _on_start_button_pressed() -> void:
+	get_parent().add_child(loading_screen)
+	for star in stars:
+		for node in star.get_children():
+			for child:Button in node.get_children():
+				child.disabled = true
