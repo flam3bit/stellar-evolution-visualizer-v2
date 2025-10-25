@@ -47,7 +47,7 @@ func _on_f_type_buttons_mist_chosen() -> void:
 	add_data("res://examples/mist/Feria.stellar")
 
 func _on_g_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Genor.stellar")
+	add_data("res://examples/mist/Gestran.stellar")
 
 func _on_k_type_buttons_mist_chosen() -> void:
 	add_data("res://examples/mist/Kerdo.stellar")
