@@ -104,7 +104,15 @@ func load_sim_data(path_to_file:String):
 		
 		if Options.skip_ms:
 			FluffyLogger.print_info("Skipping main sequence ...")
-			remove_ms()
+			
+			for stage in stage_sim_data:
+				if stage == Constants.MIST_RGB or stage == Constants.MIST_WOLF_RAYET:
+					remove_ms()
+					break
+				else:
+					FluffyLogger.print_warn("Found no post main sequence, skipping")
+					error = FAILED
+					break
 			
 		star.age = age_sim_data[0]
 		star.temperature = teff_sim_data[0]
@@ -114,7 +122,7 @@ func load_sim_data(path_to_file:String):
 
 		return error
 	else:
-		FluffyLogger.print_error("Can't find file.")
+		FluffyLogger.print_error("This file is not compatible!")
 		return Error.ERR_FILE_CANT_OPEN
 
 func load_sim_data_mist(path_to_csv:String):
@@ -206,9 +214,6 @@ func load_sim_data_mist(path_to_csv:String):
 	cur_index = 0
 
 	global_data = [age_sim_data, stage_sim_data, mass_sim_data, radius_sim_data, lum_sim_data, teff_sim_data, hz_in_data, hz_out_data]
-	
-	if mass_sim_data[0] < 0.5 and Options.skip_ms:
-		return Error.FAILED
 	
 	return Error.OK
 
