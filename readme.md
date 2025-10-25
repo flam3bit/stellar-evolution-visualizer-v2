@@ -1,5 +1,6 @@
 Stellar Evolution Visualizer - Version 2
 =====
+Made using the Godot game engine.  
 Makes use of [MIST](https://waps.cfa.harvard.edu/MIST/)'s equivalent evolutionary point tracks.
 
 Use
