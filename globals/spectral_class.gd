@@ -19,10 +19,20 @@ func calculate_spectral_class(temperature:float):
 		return "B" + calculate_spectral_number(temperature, 10120, 33120)
 	elif temperature >= 33120 and temperature < 52470:
 		return "O" + calculate_spectral_number(temperature, 33120, 52470)
+
+	# Hot stars
 	elif temperature >= 52470:
 		return "O0.0"
-	else: # temperatures too cold
-		return "Brown dwarf"
+	else:
+		if temperature >= 1320 and temperature < 2320:
+			return "L" + calculate_spectral_number(temperature, 1320, 2320)
+		elif temperature >= 620 and temperature < 1320:
+			return "T" + calculate_spectral_number(temperature, 620, 1320)
+		elif temperature >= 0 and temperature < 620:
+			return "Y" + calculate_spectral_number(temperature, 0, 620)
+		else:
+			return "Error"
+
 		
 func calculate_spectral_number(temperature:float, lower:float, upper:float):
 	var diff:float = (upper - lower) / 10

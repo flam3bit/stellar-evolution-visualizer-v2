@@ -35,25 +35,25 @@ func _on_overview_finished():
 	queue_free()
 
 func _on_o_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Orinesa.mist")
+	add_data("res://examples/mist/Orinesa.stellar")
 
 func _on_b_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Berigea.mist")
+	add_data("res://examples/mist/Berigea.stellar")
 
 func _on_a_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Argoth.mist")
+	add_data("res://examples/mist/Argoth.stellar")
 
 func _on_f_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Feria.mist")
+	add_data("res://examples/mist/Feria.stellar")
 
 func _on_g_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Genor.mist")
+	add_data("res://examples/mist/Gestran.stellar")
 
 func _on_k_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Kerdo.mist")
+	add_data("res://examples/mist/Kerdo.stellar")
 
 func _on_m_type_buttons_mist_chosen() -> void:
-	add_data("res://examples/mist/Mitria.mist")
+	add_data("res://examples/mist/Mitria.stellar")
 
 func _on_import_button_pressed() -> void:
 	create_open_file()
@@ -67,6 +67,7 @@ func create_open_file():
 	file_dialogue.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialogue.show_hidden_files = true
 	file_dialogue.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	file_dialogue.filters = PackedStringArray(["*.stellar", "*.stel", "*.star"])
 	file_dialogue.use_native_dialog = true
 	add_child(file_dialogue)
 	file_dialogue.popup_centered()
